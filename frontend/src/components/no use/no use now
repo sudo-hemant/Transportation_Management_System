@@ -1,0 +1,73 @@
+import React, { useEffect, useState, } from 'react'
+// import { useLocation, useHistory } from 'react-router-dom'
+// import axios from 'axios'
+// import InvoicesOfBill from './InvoicesOfBill'
+
+
+// function SelectBillNo() {
+
+//     // const history = useHistory()
+//     // const {state} = useLocation()
+//     // const [fetched, setFetched] = useState([])
+//     // const [form, setForm] = useState({
+//     //     generate_bill_no: '',
+//     //     bill: []
+//     // })
+
+//     // to fetch all the transaction of selected shipper 
+//     useEffect(() => {
+//         const fetch = async() => {
+//             const response = await axios.get(`http://127.0.0.1:8000/bill/?shipper=${state.customer}`)
+//             const data = await response.data
+//             setFetched(data)
+//         }
+//         fetch()
+//     }, [])
+
+//     // const handleNoChange = e => {
+//     //     e.preventDefault()
+//     //     const name = e.target.name
+//     //     const value = e.target.value
+//     //     setForm( prev => {
+//     //         const newstate = { ...prev }
+//     //         newstate[name] = value
+//     //         return newstate
+//     //     })
+//     // }
+
+//     const handleSubmit = e => {
+//         e.preventDefault()
+//         // it ll push all the id of each invoice into bill (i.e., many to many field) of generate bill class
+//         fetched.map( toadd => (
+//             form.bill.push(toadd.id)
+//         ))
+//         // to link all the invoices to its bill in db 
+//         axios   
+//             .post(`http://127.0.0.1:8000/generatebill/`, form)
+//             .then( res => console.log(res) )
+//             .then( history.push({
+//                 pathname: '/bill',
+//                 state: {bill_no: form.generate_bill_no}
+//             }) )
+//     }
+
+
+//     // to take input of bill no to be created
+//     return (
+//         <>
+//             <form onSubmit={e => handleSubmit(e) }>
+//                 {/* <input 
+//                     type="number" 
+//                     name="generate_bill_no"  
+//                     value={form.generate_bill_no}
+//                     onChange={e => handleChange(e) }    
+//                 /> */}
+//                 <button> generate </button>
+//             </form>
+
+//             {/* <InvoicesOfBill invoices={fetched} /> */}
+//         </>
+//     )
+// }
+
+// export default SelectBillNo
