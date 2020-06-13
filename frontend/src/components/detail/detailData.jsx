@@ -1,52 +1,105 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios'
-import UpdateInputBox from './updateInputBox';
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+import ReusableInput from '../ReusableInput'
+
+import TextField from '@material-ui/core/TextField'
+import Autocomplete from '@material-ui/lab/Autocomplete'
 
 
-function DetailData(props) {
+toast.configure()
+function DetailData() {
+
+    const history = useHistory()
+    const { state } = useLocation()
 
     // to store the fetched data
-    const [current, setCurrent] = useState([])
+    // const [current, setCurrent] = useState([])
+
     // to store the data to be updated  
     const [update, setUpdate] = useState([])
+
+    const [error, setError] = useState({})
+
+    const id = state.id
+
     // to fetch any variable part of the url by their name as given by us
-    const { id } = useParams()
+    // const { id } = useParams()
 
     // to load data on id change or page load
     useEffect(() => {
-        const fetchInvoiceDetail = async() => {
+        const fetchInvoiceDetail = async () => {
             const response = await axios.get(`http://127.0.0.1:8000/bill/${id}`)
             const data = await response.data
-            setCurrent(data)
+            // setCurrent(data)
             setUpdate(data)
+            console.log(data);
         }
         fetchInvoiceDetail()
     }, [])
 
+
+    // toast notifications
+    const updateNotification = () => {
+        toast.success('Successfully updated!', { autoClose: 3000 })
+    }
+
+    const deletedNotification = () => {
+        toast.success('Successfully deleted!', { autoClose: 3000 })
+    }
+
+    const updateErrorNotification = () => {
+        toast.error('error, cannot update', { autoClose: 2000 })
+    }
+
+    const errorDeletionNotification = () => {
+        toast.error('error occured while deletion!', { autoClose: 2500 })
+    }
+
+
     // to update data in database as requested by user
     const handleUpdate = e => {
         e.preventDefault()
-        axios
-            .put(`http://127.0.0.1:8000/bill/${id}/`, update)
-            .then(response => {
-                setCurrent(response.data)
-            })
-            .catch(err => console.log(err))
+        const surity = window.confirm("Are you sure, you want to update?")
+        if (surity) {
+            axios
+                .put(`http://127.0.0.1:8000/bill/${id}/`, update)
+                .then(response => {
+                    updateNotification()
+                    setUpdate(response.data)
+                    // setCurrent(response.data)
+                })
+                .catch(error => {
+                    (error.response) ? setError(error.response.data) : setError({})
+                    updateErrorNotification()
+                    console.log(error)
+                })
+        }
     }
 
     const handleDelete = e => {
         e.preventDefault()
-        axios
-            .delete(`http://127.0.0.1:8000/bill/${id}`)
-            .then( res => console.log(res.data))
-            .catch( err => {
-                throw err.response.data
-            })
+        const surity = window.confirm("Are you sure you want to dele?")
+        if (surity) {
+            axios
+                .delete(`http://127.0.0.1:8000/bill/${id}`)
+                .then(res => {
+                    deletedNotification()
+                    console.log(res.data)
+                    history.goBack()
+                })
+                .catch(error => {
+                    errorDeletionNotification()
+                    console.log(error)
+                })
+        }
     }
 
     // to handle the change in the input box
-    const handleInputChange = e => {
+    const handleChange = e => {
         e.preventDefault()
         const name = e.target.name
         const value = e.target.value
@@ -62,164 +115,195 @@ function DetailData(props) {
         <>
             <h1>Detail view</h1> <hr />
 
-            <p> bill no : {current.e_way_bill_no} </p>
-            <p> date : {current.date} </p>
-            <p> origin : {current.origin} </p>
-            <p> destination : {current.destination} </p>
-            <p> shipper : {current.shipper} </p>
-            <p> consignee : {current.consignee} </p>
-            <p> mode : {current.mode} </p>
-            <p> flight No : {current.flight_no} </p>
-            <p> pieces : {current.pieces} </p>
-            <p> weight : {current.actual_weight} </p>
-            <p> payment mode : {current.payment_mode} </p>
-            <p> rate : {current.rate_per_kg} </p>
-            <p> declared value : {current.declared_value} </p>
-            <p> weight charges : {current.weight_charges} </p>
-            <p> other charges : {current.other_charges} </p>
-            <p> igst : {current.igst} </p>
-            <p> cgst : {current.cgst} </p>
-            <p> sgst : {current.sgst} </p>
-            <p> amount : {current.total_charges} </p>
-            <hr />
-            
-
             <form onSubmit={e => handleUpdate(e)} >
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="e_way_bill_no"
                     value={update.e_way_bill_no || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="E-Way Bill No"
+                    error={error.e_way_bill_no ? true : false}
+                    help={error.e_way_bill_no}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
-                    type="text"
+                <ReusableInput
+                    type="date"
                     name="date"
                     value={update.date || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="Date"
+                    error={error.date ? true : false}
+                    help={error.date}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
-                    type="text"
-                    name="origin"
-                    value={update.origin || ''}
-                    onChange={e => handleInputChange(e)}
-                />
-
-                <UpdateInputBox
-                    type="text"
-                    name="destination"
-                    value={update.destination || ''}
-                    onChange={e => handleInputChange(e)}
-                />
-
-                <UpdateInputBox
-                    type="text"
+                <ReusableInput
                     name="shipper"
                     value={update.shipper || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="Shipper"
+                    error={error.shipper ? true : false}
+                    help={error.shipper}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
-                    type="text"
+                <ReusableInput
                     name="consignee"
                     value={update.consignee || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="Consignee"
+                    error={error.consignee ? true : false}
+                    help={error.consignee}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
-                    type="text"
+                <ReusableInput
+                    name="origin"
+                    value={update.origin || ''}
+                    label="Origin"
+                    error={error.origin ? true : false}
+                    help={error.origin}
+                    onChange={e => handleChange(e)}
+                />
+
+                <ReusableInput
+                    name="destination"
+                    value={update.destination || ''}
+                    label="Destination"
+                    error={error.destination ? true : false}
+                    help={error.destination}
+                    onChange={e => handleChange(e)}
+                />
+
+                <ReusableInput
+                    required={false}
                     name="mode"
                     value={update.mode || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="mode"
+                    error={error.mode ? true : false}
+                    help={error.mode}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
-                    type="text"
+                <ReusableInput
+                    required={false}
                     name="flight_no"
                     value={update.flight_no || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="flight No"
+                    error={error.flight_no ? true : false}
+                    help={error.flight_no}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="pieces"
                     value={update.pieces || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="pieces"
+                    error={error.pieces ? true : false}
+                    help={error.pieces}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="actual_weight"
                     value={update.actual_weight || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="actualWeight"
+                    error={error.actual_weight ? true : false}
+                    help={error.actual_weight}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
-                    name="rate_per_kg"
+                    name="ratePerKg"
                     value={update.rate_per_kg || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="rate"
+                    error={error.rate_per_kg ? true : false}
+                    help={error.rate_per_kg}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
-                    type="text"
+                <ReusableInput
+                    required={false}
                     name="payment_mode"
                     value={update.payment_mode || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="Payment Mode"
+                    error={error.payment_mode ? true : false}
+                    help={error.payment_mode}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="declared_value"
                     value={update.declared_value || ''}
-                    onChange={e => handleInputChange(e)}
-                />
+                    label="Declared Value"
+                    error={error.declared_value ? true : false}
+                    help={error.declared_value}
+                    onChange={e => handleChange(e)} />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="weight_charges"
                     value={update.weight_charges || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="Weight Charges"
+                    error={error.weight_charges ? true : false}
+                    help={error.weight_charges}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="other_charges"
                     value={update.other_charges || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="Other Charges"
+                    error={error.other_charges ? true : false}
+                    help={error.other_charges}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="igst"
                     value={update.igst || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="igst"
+                    error={error.igst ? true : false}
+                    help={error.igst}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="cgst"
                     value={update.cgst || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="cgst"
+                    error={error.cgst ? true : false}
+                    help={error.cgst}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="sgst"
                     value={update.sgst || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="sgst"
+                    error={error.sgst ? true : false}
+                    help={error.sgst}
+                    onChange={e => handleChange(e)}
                 />
 
-                <UpdateInputBox
+                <ReusableInput
                     type="number"
                     name="total_charges"
                     value={update.total_charges || ''}
-                    onChange={e => handleInputChange(e)}
+                    label="Total Charges"
+                    error={error.total_charges ? true : false}
+                    help={error.total_charges}
+                    onChange={e => handleChange(e)}
                 />
 
                 <button> Update </button>
+
             </form>
 
             <button onClick={e => handleDelete(e)} > Delete </button>

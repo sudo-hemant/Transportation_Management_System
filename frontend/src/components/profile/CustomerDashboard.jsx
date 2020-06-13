@@ -1,20 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
+import DisplayContracts from './DisplayContracts'
+
+
+toast.configure()
 function CustomerDashboard({ customer }) {
 
     const history = useHistory()
 
     const [contracts, setContracts] = useState([])
 
+    const failedNotification = () => {
+        toast.error('unable to fetch the contracts!', { autoClose: 2500 })
+    }
+
+    // to fetch contacts
     useEffect(() => {
-        const fetchContracts = async() => {
-            const response = await axios.get(`http://127.0.0.1:8000/contract/?customer=${customer.id}`)
-            const data = await response.data
-            setContracts(data)
-            console.log(data);
+        const fetchContracts = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/contract/?customer=${customer.id}`)
+                const data = await response.data
+                setContracts(data)
+                console.log(data);
+            }
+            catch {
+                failedNotification()
+            }
         }
         fetchContracts()
     }, [customer.name])
@@ -22,7 +38,7 @@ function CustomerDashboard({ customer }) {
     // to redirect to createcontract page
     const handleCreateContract = e => {
         e.preventDefault()
-        history.push({  
+        history.push({
             pathname: '/createcontract',
             state: {
                 id: customer.id
@@ -32,23 +48,19 @@ function CustomerDashboard({ customer }) {
 
     return (
         <>
+            {/* TODO -- change UI */}
             <h1> Details of {customer.name} </h1>
             {
-                Object.keys(customer).map( (key, index) => (
+                Object.keys(customer).map((key, index) => (
                     <p key={index} > {key} : {customer[key]} </p>
                 ))
             }
 
-            <h1> Contracts of {customer.name} </h1>
-            {
-                contracts.map( (contract, key) => (
-                    Object.keys(contract).map( (data, index) => (
-                        <p key={index}> {data} : {contract[data]} </p>
-                    ))
-                ))
-            }
+            <hr /><hr />
 
-            <button onClick={e => handleCreateContract(e) } > Add Contract </button>
+            <DisplayContracts contracts={contracts} />
+
+            <button onClick={e => handleCreateContract(e)} > Add Contract </button>
         </>
     )
 }

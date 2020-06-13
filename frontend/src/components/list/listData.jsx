@@ -15,13 +15,17 @@ function ListData() {
         axios
             .get(`http://127.0.0.1:8000/bill`)
             .then( response => setData(response.data) )
-            .catch( err => console.log(err) )
+            .catch( error => console.log(error) )
     }, [])
 
     // for viewing the details of any data
     const handleDetailView = (e, id) => {
         e.preventDefault()
-        history.push(`detail/${id}`)
+        // history.push(`detail/${id}`)
+        history.push({
+            pathname: `/detail/${id}`,
+            state: { id }
+        })
     }
 
 
@@ -31,7 +35,7 @@ function ListData() {
             {/* for filtering the data according to user's need */}
             <SearchFilter setData={ setData } />
 
-            <table>
+            <table border="3" >
 
                 <thead>
                     <tr>

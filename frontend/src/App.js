@@ -7,8 +7,8 @@ import CreateContract from "./components/profile/CreateContract"
 import TakeInput from "./components/takeInput"
 import ListData from "./components/list/listData"
 import DetailData from "./components/detail/detailData"
-import SelectShipper from './components/bill/SelectShipper'
-import Bill from './components/bill/Bill'
+import GenerateBill from './components/bill/GenerateBill'
+import FetchBill from './components/bill/FetchBill'
 
 // import GlobalProvider from "./context/globalState";
 // import CustomerProfile from "./components/profile/customerProfile";
@@ -31,8 +31,8 @@ function App() {
         <Route path="/list" component={ListData} />
         <Route path="/detail/:id" exact component={DetailData} />
 
-        <Route path="/selectshipper" component={SelectShipper} />
-        <Route path="/bill" component={Bill} />
+        <Route path="/createbill" component={GenerateBill} />
+        <Route path="/fetchbill" component={FetchBill} />
 
         <Route path="/" exact component={Nav} />
 

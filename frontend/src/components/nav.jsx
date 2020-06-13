@@ -10,7 +10,8 @@ function Nav() {
             <Link to="/customersearch" > customer dashboard </Link> {"  |  "}
             <Link to="/add"> add new data </Link> {"  |  "}
             <Link to="/list"> history </Link> {"  |  "}
-            <Link to="/selectshipper" > Generate Bill </Link>
+            <Link to="/createbill" > Generate Bill </Link> {"  |  "}
+            <Link to="/fetchbill" > Fetch Bill </Link> {"  |  "}
 
         </>
     )

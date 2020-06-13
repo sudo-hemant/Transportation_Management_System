@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+import ReusableInput from '../ReusableInput'
 
 
 // to let company register all the contracts with it's customer
+toast.configure()
 function CreateContract() {
 
     const history = useHistory()
@@ -18,6 +23,10 @@ function CreateContract() {
         customer: state.id
     })
 
+    // to store error occured in form 
+    const [error, setError] = useState({})
+
+    // to handle change in any input field in form
     const handleChange = e => {
         e.preventDefault()
         const name = e.target.name
@@ -29,38 +38,80 @@ function CreateContract() {
         })
     }
 
+    // toast notifications
+    const successNotification = () => {
+        toast.success('Successfully created the contract', { autoClose: 2500 })
+    }
+    const failedNotification = () => {
+        toast.error('Some error occured', { autoClose: 2000 })
+    }
+
     // to post form data to register contract with the client by linking client id with it
     const handleSubmit = e => {
         e.preventDefault()
 
-        const create = async() => {
-            const response = await axios.post(`http://127.0.0.1:8000/contract/`, contract)
-            const staus = response.status
+        const create = async () => {
+            axios
+                .post(`http://127.0.0.1:8000/contract/`, contract)
+                .then(response => {
+                    setError({})
+                    successNotification()
+                    history.goBack()
+                    console.log(response)
+                })
+                .catch(error => {
+                    (error.response) ? setError(error.response.data) : setError({})
+                    failedNotification()
+                    console.log(error)
+                })
         }
-        create()
-        history.goBack()
+        const surity = window.confirm("Are you sure?")
+        if (surity) 
+            create()
     }
 
 
     return (
         <>
             <form onSubmit={e => handleSubmit(e)} >
-                
-                origin : 
-                <input type="text" name="origin" value={contract.origin} onChange={e => handleChange(e)} /> <br/>
-                
-                destination : 
-                <input type="text" name="destination" value={contract.destination} onChange={e => handleChange(e)} /> <br/>
-                
-                rate : 
-                <input type="number" name="rate" value={contract.rate} onChange={e => handleChange(e)} /> <br/>
-                
-                extra charges : 
-                <input type="number" name="extra_charges" value={contract.extra_charges} onChange={e => handleChange(e)} /> <br/>
-                
-                <button> submit </button> <br/>
-            </form>
 
+                <ReusableInput
+                    name="origin"
+                    label="origin"
+                    error={error.origin ? true : false}
+                    help={error.origin}
+                    onChange={e => handleChange(e)}
+                />
+
+                <ReusableInput
+                    name="destination"
+                    label="destination"
+                    error={error.destination ? true : false}
+                    help={error.destination}
+                    onChange={e => handleChange(e)}
+                />
+
+                <ReusableInput
+                    type="number"
+                    name="rate"
+                    label="rate"
+                    error={error.rate ? true : false}
+                    help={error.rate}
+                    onChange={e => handleChange(e)}
+                />
+
+                <ReusableInput
+                    type="number"
+                    name="extra_charges"
+                    label="extra charges"
+                    error={error.extra_charges ? true : false}
+                    help={error.extra_charges}
+                    onChange={e => handleChange(e)}
+                />
+
+                <button> submit </button> <br />
+
+            </form>
         </>
     )
 }
