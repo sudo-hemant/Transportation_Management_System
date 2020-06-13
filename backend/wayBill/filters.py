@@ -1,7 +1,8 @@
 import django_filters
-from django_filters import FilterSet, CharFilter, NumberFilter, DateFromToRangeFilter
+from django_filters import FilterSet, CharFilter, NumberFilter, \
+    DateFilter, DateFromToRangeFilter
 
-from .models import Bill, Contracts, Customer
+from .models import Bill, Contracts, Customer, GenerateBill
 
 
 class BillFilter(FilterSet):
@@ -15,6 +16,16 @@ class BillFilter(FilterSet):
     class Meta:
         model = Bill
         fields = [ 'bill_no', 'date', 'origin', 'destination', 'shipper', 'consignee', ]
+
+
+class BillIdsFilter(FilterSet):
+    date = DateFromToRangeFilter(field_name="date")
+    shipper = CharFilter(field_name='shipper', lookup_expr="iexact" ) # it defaults to exact lookup
+
+    class Meta: 
+        model = Bill
+        fields = [ 'date', 'shipper' ]
+
 
 
 class ContractFilter(FilterSet):
@@ -37,3 +48,13 @@ class CustomerFilter(FilterSet):
     class Meta:
         model = Customer
         fields = [ 'name', 'code', 'contract_no', 'gst_no', 'pan_no' ]
+
+
+class GenerateBillFilter(FilterSet):
+    customer = NumberFilter(field_name='customer')
+    generate_bill_no = NumberFilter(field_name='generate_bill_no')
+    date = DateFromToRangeFilter(field_name='bill_date')
+
+    class Meta:
+        model = GenerateBill
+        fields = ['customer', 'generate_bill_no', 'date']

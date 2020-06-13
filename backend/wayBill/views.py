@@ -6,10 +6,12 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters import rest_framework as filters
 
 from .models import Bill, Contracts, Customer, GenerateBill
-from .serializers import BillSerializer, ContractSerializer,\
-                            CustomerSerializer, CustomerNameSerializer, \
-                            GenerateBillSerializer, ListGenerateBillSerializer    
-from .filters import BillFilter, ContractFilter, CustomerFilter 
+from .serializers import BillSerializer, BillIdsSerializer,\
+                            ContractSerializer, CustomerSerializer,\
+                            CustomerNameSerializer, GenerateBillSerializer,\
+                            ListGenerateBillSerializer    
+from .filters import BillFilter, BillIdsFilter, ContractFilter, \
+                        CustomerFilter, GenerateBillFilter
 
 
 class BillList(viewsets.ModelViewSet):
@@ -18,6 +20,13 @@ class BillList(viewsets.ModelViewSet):
     filter_backends = ( filters.DjangoFilterBackend, SearchFilter )
     filterset_class = BillFilter
     # filterset_fields = ['origin', 'consignee']
+
+
+class BillIdsList(generics.ListAPIView):
+    queryset = Bill.objects.all()
+    serializer_class = BillIdsSerializer
+    filter_backends = ( filters.DjangoFilterBackend, SearchFilter )
+    filterset_class = BillIdsFilter
 
 
 class ContractsList(viewsets.ModelViewSet):
@@ -42,8 +51,17 @@ class CustomerNameList(generics.ListAPIView):
 class GenerateBillList(viewsets.ModelViewSet):
     queryset = GenerateBill.objects.all()
     serializer_class = GenerateBillSerializer
+    filter_backends = ( filters.DjangoFilterBackend, SearchFilter )
+    filterset_class = GenerateBillFilter
 
 
 class AllGenerateBillList(generics.RetrieveAPIView):
     queryset = GenerateBill.objects.all()
     serializer_class = ListGenerateBillSerializer
+
+
+# remove it
+class ListGenerateBillList(generics.ListAPIView):
+    queryset = GenerateBill.objects.all()
+    serializer_class = ListGenerateBillSerializer
+

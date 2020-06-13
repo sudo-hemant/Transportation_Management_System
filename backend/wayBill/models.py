@@ -5,9 +5,9 @@ from datetime import date
 class Bill(models.Model):
 
     e_way_bill_no = models.IntegerField(unique=True)
-    date = models.DateField( default=date.today() )
-    origin = models.CharField( max_length=20 )
-    destination = models.CharField( max_length=20 )
+    date = models.DateField(default=date.today())
+    origin = models.CharField(max_length=20)
+    destination = models.CharField(max_length=20)
     shipper = models.CharField(max_length=50)
     consignee = models.CharField(max_length=50)
 
@@ -15,15 +15,15 @@ class Bill(models.Model):
     flight_no = models.CharField(max_length=50, blank=True)
     pieces = models.IntegerField()
     actual_weight = models.DecimalField(max_digits=7, decimal_places=2)
-    payment_mode = models.CharField( max_length=50, blank=True )
+    payment_mode = models.CharField(max_length=50, blank=True)
 
     rate_per_kg = models.DecimalField(max_digits=6, decimal_places=3)
     declared_value = models.IntegerField(blank=True, default=0)
     weight_charges = models.IntegerField()
     other_charges = models.IntegerField(blank=True, default=0)
-    igst = models.IntegerField(blank=True, default=0)
-    cgst = models.IntegerField(blank=True, default=0)
-    sgst = models.IntegerField(blank=True, default=0)
+    igst = models.IntegerField(default=0)
+    cgst = models.IntegerField(default=0)
+    sgst = models.IntegerField(default=0)
     total_charges = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
@@ -70,5 +70,13 @@ class Contracts(models.Model):
 class GenerateBill(models.Model):
 
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-    generate_bill_no = models.PositiveIntegerField(primary_key=True, unique=True)
+    generate_bill_no = models.PositiveIntegerField(
+        primary_key=True, unique=True)
     bill = models.ManyToManyField(Bill)
+    bill_date = models.DateField(default=date.today())
+    date_from = models.DateField(default=date.today())
+    date_to = models.DateField(default=date.today())
+    total_weight = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    total_amount = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+
+

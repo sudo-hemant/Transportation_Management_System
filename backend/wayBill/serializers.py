@@ -9,6 +9,12 @@ class BillSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class BillIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bill
+        fields = ( 'id', 'date', 'shipper', 'actual_weight', 'total_charges' )
+
+
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contracts
@@ -34,7 +40,8 @@ class GenerateBillSerializer(serializers.ModelSerializer):
 
 
 class ListGenerateBillSerializer(serializers.ModelSerializer):
+    customer = CustomerSerializer(many=False)
     bill = BillSerializer(many=True)
     class Meta:
         model = GenerateBill
-        fields = ('generate_bill_no', 'bill', )
+        fields =  '__all__' 
