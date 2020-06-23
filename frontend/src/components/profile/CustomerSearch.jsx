@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import CustomerDashboard from './CustomerDashboard'
+import '../../css/profile/CustomerDashboard.css'
 
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -18,19 +19,20 @@ function CustomerSearch() {
     // to store the fetched data of selected customer which ll be 
     // used to display customer dashboard
     const [customer, setCustomer] = useState('')
+    const [error, setError] = useState([])
 
     // to store form data ie, id and name
     const [form, setForm] = useState({})
 
     // to use this as a conditional statement to render dashboard
-    const [displayDashboard, setDisplayDashboard] = useState(false)
+    const [displayDashboard, setDisplayDashboard] = useState(   )
 
 
     // will fetch the list of all existing customers (ie, name, id)
     useEffect(() => {
         axios
             .get(`http://127.0.0.1:8000/customersname`)
-            .then( respose => {
+            .then(respose => {
                 setAllCustomers(respose.data)
                 console.log(respose.data);
             })
@@ -47,7 +49,7 @@ function CustomerSearch() {
 
     // to display toast if unable to fetch data of the selected customer
     const failedNotification = () => {
-        toast.error('unable to fetch data, Try again!', { autoClose: 2500 } )
+        toast.error('unable to fetch data, Try again!', { autoClose: 2500 })
     }
 
     // to fetch the data of the selected customer on button click
@@ -70,32 +72,44 @@ function CustomerSearch() {
 
 
     return (
-        <>
-            <h1> Select customer to view profile </h1>
+        <div id="dashboard">
 
-            <form onSubmit={e => fetchShipperData(e)}>
+            <div id="header">
+                <h1> <i> Select customer to view profile ! </i> </h1>
+            </div>
 
-                <Autocomplete
-                    options={allCustomers}
-                    style={{ width: 300 }}
-                    getOptionLabel={option => option.name}
-                    onChange={(e, value) => handleChange(e, value)}
-                    renderInput={params =>
-                        <TextField
-                            {...params}
-                            required
-                            label="Select Customer"
-                            variant="outlined"
-                        />}
-                />
+            <br /><hr /><br />
 
-                <br /><br />
+            <div id="dashboard-form">
+                <form onSubmit={e => fetchShipperData(e)}>
+                    <div>
+                        <Autocomplete
+                            options={allCustomers}
+                            style={{ width: 300 }}
+                            getOptionLabel={option => option.name}
+                            onChange={(e, value) => handleChange(e, value)}
+                            renderInput={params =>
+                                <TextField
+                                    {...params}
+                                    required
+                                    label="Select Customer"
+                                    variant="outlined"
+                                />}
+                        />
+                    </div>
 
-                <button> Fetch  </button>
-            </form>
+                    <button id="fetch-button"> Fetch  </button>
+                </form>
+            </div>
 
-            {displayDashboard && <CustomerDashboard customer={customer} />}
-        </>
+            {displayDashboard && <CustomerDashboard
+                customer={customer}
+                setCustomer={setCustomer}
+                error={error}
+                setError={setError}
+            />}
+            
+        </div>
     )
 }
 

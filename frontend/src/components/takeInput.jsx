@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import ReusableInput from './ReusableInput'
+import '../css/profile/TakeInput.css'
 
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -17,7 +18,7 @@ function TakeInput() {
 
     // to handle data coming from bill model which is used for entry of particular data
     const [data, setData] = useState({
-        e_way_bill_no: '',
+        doc_no: '',
         date: '',
         origin: '',
         destination: '',
@@ -26,27 +27,37 @@ function TakeInput() {
         mode: '',
         flight_no: '',
         pieces: '',
-        actual_weight: '',
+        weight: '',
         payment_mode: '',
-        rate_per_kg: '',
-        declared_value: '',
+        rate: '',
         weight_charges: '',
         other_charges: '',
-        igst: '',
-        cgst: '',
-        sgst: '',
         total_charges: '',
     })
+
     // to store error occured in any input field in form
     const [error, setError] = useState({})
 
     // to store the name & id of existing customers
     const [existingCustomers, setExistingCustomers] = useState([])
 
-    useEffect( () => {
+    const mode = [
+        { name: 'Air' },
+        { name: 'Train' },
+        { name: 'Surface' }
+    ]
+
+    const paymentMode = [
+        { name: 'Cash' },
+        { name: 'Credit' },
+        { name: 'Cheque' }
+    ]
+
+
+    useEffect(() => {
         axios
             .get(`http://127.0.0.1:8000/customersname`)
-            .then( response => {
+            .then(response => {
                 setExistingCustomers(response.data)
                 console.log(response.data);
             })
@@ -83,210 +94,214 @@ function TakeInput() {
         e.preventDefault()
         const name = e.target.name
         const value = e.target.value
-        setData(prevState => {
-            const newState = { ...prevState }
-            newState[name] = value
-            return newState
+        setData({
+            ...data,
+            [name]: value
         })
     }
 
     // to handle change - if user selects shipper from existing customer
     const handleShipperChange = (e, value) => {
         e.preventDefault()
-        console.log(value)
 
-        value ? setData({
+        setData({
             ...data,
-            shipper: value.name 
-        }) : setData({
-            ...data, 
-            shipper: ''
+            shipper: value ? value.name : ''
         })
     }
 
 
     return (
         <>
-            <form onSubmit={e => handleSubmit(e)} id="input-form" >
 
-                <ReusableInput
-                    type="number"
-                    name="e_way_bill_no"
-                    label="E-Way Bill No"
-                    error={error.e_way_bill_no ? true : false}
-                    help={error.e_way_bill_no}
-                    onChange={e => handleChange(e)}
-                />
+            <form onSubmit={e => handleSubmit(e)} className="input-form" >
 
-                <ReusableInput
-                    type="date"
-                    name="date"
-                    // label="Date"
-                    error={error.date ? true : false}
-                    help={error.date}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <ReusableInput
+                        type="number"
+                        name="doc_no"
+                        label="Doc No."
+                        error={error.doc_no ? true : false}
+                        help={error.doc_no}
+                        onChange={e => handleChange(e)}
+                    />
 
-                <Autocomplete
-                    freeSolo
-                    options={existingCustomers}
-                    style={{ width: 300 }}
-                    getOptionLabel={option => option.name}
-                    onChange={ (e, value) => handleShipperChange(e, value) }
-                    renderInput={ params =>
-                        <TextField
-                            {...params}
-                            required
-                            label="shipper"
-                            name="shipper"
-                            error = {error.shipper ? true : false}
-                            helperText = {error.shipper}
-                            onChange={ e => handleChange(e) }
-                            variant="outlined"
-                        />}
-                />
+                    <ReusableInput
+                        type="date"
+                        name="date"
+                        label="Date"
+                        error={error.date ? true : false}
+                        help={error.date}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    name="consignee"
-                    label="consignee"
-                    error={error.consignee ? true : false}
-                    help={error.consignee}
-                    onChange={e => handleChange(e)}
-                />
+                <div id="ship-cons">
+                    <Autocomplete
+                        freeSolo
+                        options={existingCustomers}
+                        id="shipper"
+                        getOptionLabel={option => option.name}
+                        onChange={(e, value) => setData({
+                            ...data,
+                            shipper: value ? value.name : ''
+                        })}
+                        renderInput={params =>
+                            <TextField
+                                {...params}
+                                required
+                                label="Shipper"
+                                name="shipper"
+                                error={error.shipper ? true : false}
+                                helperText={error.shipper}
+                                onChange={e => handleChange(e)}
+                                variant="outlined"
+                            />}
+                    />
 
-                <ReusableInput
-                    name="origin"
-                    label="origin"
-                    error={error.origin ? true : false}
-                    help={error.origin}
-                    onChange={e => handleChange(e)}
-                />
+                    <ReusableInput
+                        name="consignee"
+                        label="Consignee"
+                        error={error.consignee ? true : false}
+                        help={error.consignee}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    name="destination"
-                    label="destination"
-                    error={error.destination ? true : false}
-                    help={error.destination}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <ReusableInput
+                        name="origin"
+                        label="Origin"
+                        error={error.origin ? true : false}
+                        help={error.origin}
+                        onChange={e => handleChange(e)}
+                    />
 
-                <ReusableInput
-                    required={false}
-                    name="mode"
-                    label="mode"
-                    error={error.mode ? true : false}
-                    help={error.mode}
-                    onChange={e => handleChange(e)}
-                />
+                    <ReusableInput
+                        name="destination"
+                        label="Destination"
+                        error={error.destination ? true : false}
+                        help={error.destination}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    required={false}
-                    name="flight_no"
-                    label="flight No"
-                    error={error.flight_no ? true : false}
-                    help={error.flight_no}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <Autocomplete
+                        options={mode}
+                        // style={{ width: 234 }}
+                        id="mode"
+                        getOptionLabel={option => option.name}
+                        onChange={(e, value) => setData({
+                            ...data,
+                            mode: value ? value.name : ''
+                        })}
+                        renderInput={params =>
+                            <TextField
+                                {...params}
+                                required
+                                label="Mode"
+                                error={error.mode ? true : false}
+                                helperText={error.mode}
+                                variant="outlined"
+                            />}
+                    />
 
-                <ReusableInput
-                    type="number"
-                    name="pieces"
-                    label="pieces"
-                    error={error.pieces ? true : false}
-                    help={error.pieces}
-                    onChange={e => handleChange(e)}
-                />
+                    <ReusableInput
+                        required={false}
+                        name="flight_no"
+                        label="Flight No"
+                        error={error.flight_no ? true : false}
+                        help={error.flight_no}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    type="number"
-                    name="actual_weight"
-                    label="actualWeight"
-                    error={error.actual_weight ? true : false}
-                    help={error.actual_weight}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <ReusableInput
+                        type="number"
+                        name="pieces"
+                        label="Pcs"
+                        error={error.pieces ? true : false}
+                        help={error.pieces}
+                        onChange={e => handleChange(e)}
+                    />
 
-                <ReusableInput
-                    type="number"
-                    name="rate_per_kg"
-                    label="ratePerKg"
-                    error={error.rate_per_kg ? true : false}
-                    help={error.rate_per_kg}
-                    onChange={e => handleChange(e)}
-                />
+                    <ReusableInput
+                        type="number"
+                        name="weight"
+                        label="Weight"
+                        error={error.weight ? true : false}
+                        help={error.weight}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    required={false}
-                    name="payment_mode"
-                    label="Payment Mode"
-                    error={error.payment_mode ? true : false}
-                    help={error.payment_mode}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <ReusableInput
+                        type="number"
+                        name="rate"
+                        label="Rate"
+                        error={error.rate ? true : false}
+                        help={error.rate}
+                        onChange={e => handleChange(e)}
+                    />
 
-                <ReusableInput
-                    type="number"
-                    name="declared_value"
-                    label="Declared Value"
-                    error={error.declared_value ? true : false}
-                    help={error.declared_value}
-                    onChange={e => handleChange(e)} />
+                    <Autocomplete
+                        options={paymentMode}
+                        id="payment-mode"
+                        getOptionLabel={option => option.name}
+                        onChange={(e, value) => setData({
+                            ...data,
+                            payment_mode: value ? value.name : ''
+                        })}
+                        renderInput={params =>
+                            <TextField
+                                {...params}
+                                required
+                                label="Pay-mode"
+                                error={error.payment_mode ? true : false}
+                                helperText={error.payment_mode}
+                                variant="outlined"
+                            />}
+                    />
+                </div>
 
-                <ReusableInput
-                    type="number"
-                    name="weight_charges"
-                    label="Weight Charges"
-                    error={error.weight_charges ? true : false}
-                    help={error.weight_charges}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <ReusableInput
+                        type="number"
+                        name="weight_charges"
+                        label="Weight Charges"
+                        error={error.weight_charges ? true : false}
+                        help={error.weight_charges}
+                        onChange={e => handleChange(e)}
+                    />
 
-                <ReusableInput
-                    type="number"
-                    name="other_charges"
-                    label="Other Charges"
-                    error={error.other_charges ? true : false}
-                    help={error.other_charges}
-                    onChange={e => handleChange(e)}
-                />
+                    <ReusableInput
+                        type="number"
+                        name="other_charges"
+                        label="Other Charges"
+                        error={error.other_charges ? true : false}
+                        help={error.other_charges}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    type="number"
-                    name="igst"
-                    label="igst"
-                    error={error.igst ? true : false}
-                    help={error.igst}
-                    onChange={e => handleChange(e)}
-                />
 
-                <ReusableInput
-                    type="number"
-                    name="cgst"
-                    label="cgst"
-                    error={error.cgst ? true : false}
-                    help={error.cgst}
-                    onChange={e => handleChange(e)}
-                />
+                <div id="total-charges">
+                    <ReusableInput
+                        type="number"
+                        name="total_charges"
+                        label="Total Charges"
+                        error={error.total_charges ? true : false}
+                        help={error.total_charges}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    type="number"
-                    name="sgst"
-                    label="sgst"
-                    error={error.sgst ? true : false}
-                    help={error.sgst}
-                    onChange={e => handleChange(e)}
-                />
-
-                <ReusableInput
-                    type="number"
-                    name="total_charges"
-                    label="Total Charges"
-                    error={error.total_charges ? true : false}
-                    help={error.total_charges}
-                    onChange={e => handleChange(e)}
-                />
-
-                <button> Submit </button>
+                <div>
+                    <button id="input-form-submit"> Submit </button>
+                </div>
 
             </form >
         </>

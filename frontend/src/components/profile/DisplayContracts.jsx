@@ -3,18 +3,20 @@ import React from 'react'
 function DisplayContracts({ contracts }) {
 
     if ( contracts.length == 0 ) 
-        return <h1> No contracts exists </h1>
+        return <p id="no-contract"> No contracts exist </p>
 
     return (
         <>
-            <table border="1">
+            <table border="1" className="contracts-table" >
+
+                <caption id="table-caption"> All Contracts </caption>
 
                 <thead>
                     <tr>
-                        <td> origin </td>
-                        <td> destination </td>
-                        <td> rate </td>
-                        <td> extra-charges </td>
+                        <th> ORIGIN </th>
+                        <th> DESTINATION </th>
+                        <th> RATE </th>
+                        <th> EXTRA-CHARGES </th>
                     </tr>
                 </thead>
 

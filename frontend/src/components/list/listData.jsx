@@ -35,17 +35,17 @@ function ListData() {
             {/* for filtering the data according to user's need */}
             <SearchFilter setData={ setData } />
 
-            <table border="3" >
+            <table border="1" style={{borderCollapse: 'collapse'}} >
 
                 <thead>
                     <tr>
-                        <th> E-Way Bill No </th>
+                        <th> Doc No. </th>
                         <th> Date </th>
                         <th> Origin </th>
                         <th> Destination </th>
                         <th> shipper </th>
                         <th> Consignee </th>
-                        <th> Pieces </th>
+                        <th> Pcs </th>
                         <th> Weight </th>
                         <th> Amount </th>
                         <th>  </th>
@@ -56,14 +56,14 @@ function ListData() {
                     {datas.map(data => (
                         <tr key={ data.id }>
                             
-                            <td> { data.e_way_bill_no } </td>
+                            <td> { data.doc_no } </td>
                             <td> { data.date  } </td>
                             <td> { data.origin } </td>
                             <td> { data.destination } </td>
                             <td> { data.shipper } </td>
                             <td> { data.consignee } </td>
                             <td> { data.pieces } </td>
-                            <td> { data.actual_weight } </td>
+                            <td> { data.weight } </td>
                             <td> { data.total_charges } </td>
                             <td>
                                 <button onClick={ e => handleDetailView(e, data.id) } > See Details </button>

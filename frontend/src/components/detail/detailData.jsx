@@ -34,7 +34,6 @@ function DetailData() {
         const fetchInvoiceDetail = async () => {
             const response = await axios.get(`http://127.0.0.1:8000/bill/${id}`)
             const data = await response.data
-            // setCurrent(data)
             setUpdate(data)
             console.log(data);
         }
@@ -68,14 +67,13 @@ function DetailData() {
             axios
                 .put(`http://127.0.0.1:8000/bill/${id}/`, update)
                 .then(response => {
-                    updateNotification()
                     setUpdate(response.data)
-                    // setCurrent(response.data)
+                    setError({})
+                    updateNotification()
                 })
                 .catch(error => {
                     (error.response) ? setError(error.response.data) : setError({})
                     updateErrorNotification()
-                    console.log(error)
                 })
         }
     }
@@ -103,10 +101,9 @@ function DetailData() {
         e.preventDefault()
         const name = e.target.name
         const value = e.target.value
-        setUpdate(prev => {
-            const newstate = { ...prev }
-            newstate[name] = value
-            return newstate
+        setUpdate({
+            ...update,
+            [name]: value
         })
     }
 
@@ -119,11 +116,11 @@ function DetailData() {
 
                 <ReusableInput
                     type="number"
-                    name="e_way_bill_no"
-                    value={update.e_way_bill_no || ''}
-                    label="E-Way Bill No"
-                    error={error.e_way_bill_no ? true : false}
-                    help={error.e_way_bill_no}
+                    name="doc_no"
+                    value={update.doc_no || ''}
+                    label="Doc No."
+                    error={error.doc_no ? true : false}
+                    help={error.doc_no}
                     onChange={e => handleChange(e)}
                 />
 
@@ -205,21 +202,21 @@ function DetailData() {
 
                 <ReusableInput
                     type="number"
-                    name="actual_weight"
-                    value={update.actual_weight || ''}
-                    label="actualWeight"
-                    error={error.actual_weight ? true : false}
-                    help={error.actual_weight}
+                    name="weight"
+                    value={update.weight || ''}
+                    label="Weight"
+                    error={error.weight ? true : false}
+                    help={error.weight}
                     onChange={e => handleChange(e)}
                 />
 
                 <ReusableInput
                     type="number"
-                    name="ratePerKg"
-                    value={update.rate_per_kg || ''}
-                    label="rate"
-                    error={error.rate_per_kg ? true : false}
-                    help={error.rate_per_kg}
+                    name="rate"
+                    value={update.rate || ''}
+                    label="Rate"
+                    error={error.rate ? true : false}
+                    help={error.rate}
                     onChange={e => handleChange(e)}
                 />
 
@@ -232,15 +229,6 @@ function DetailData() {
                     help={error.payment_mode}
                     onChange={e => handleChange(e)}
                 />
-
-                <ReusableInput
-                    type="number"
-                    name="declared_value"
-                    value={update.declared_value || ''}
-                    label="Declared Value"
-                    error={error.declared_value ? true : false}
-                    help={error.declared_value}
-                    onChange={e => handleChange(e)} />
 
                 <ReusableInput
                     type="number"
@@ -259,36 +247,6 @@ function DetailData() {
                     label="Other Charges"
                     error={error.other_charges ? true : false}
                     help={error.other_charges}
-                    onChange={e => handleChange(e)}
-                />
-
-                <ReusableInput
-                    type="number"
-                    name="igst"
-                    value={update.igst || ''}
-                    label="igst"
-                    error={error.igst ? true : false}
-                    help={error.igst}
-                    onChange={e => handleChange(e)}
-                />
-
-                <ReusableInput
-                    type="number"
-                    name="cgst"
-                    value={update.cgst || ''}
-                    label="cgst"
-                    error={error.cgst ? true : false}
-                    help={error.cgst}
-                    onChange={e => handleChange(e)}
-                />
-
-                <ReusableInput
-                    type="number"
-                    name="sgst"
-                    value={update.sgst || ''}
-                    label="sgst"
-                    error={error.sgst ? true : false}
-                    help={error.sgst}
                     onChange={e => handleChange(e)}
                 />
 

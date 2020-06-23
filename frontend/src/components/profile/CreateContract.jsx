@@ -26,6 +26,7 @@ function CreateContract() {
     // to store error occured in form 
     const [error, setError] = useState({})
 
+
     // to handle change in any input field in form
     const handleChange = e => {
         e.preventDefault()

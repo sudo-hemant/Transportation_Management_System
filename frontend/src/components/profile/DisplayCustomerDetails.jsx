@@ -3,39 +3,14 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import ReusableInput from '../ReusableInput'
+
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 
-import ReusableInput from '../ReusableInput'
-import '../../css/profile/CustomerRegistration.css'
-
 
 toast.configure()
-function Customer() {
-
-    // for storing form data - i.e., customer details 
-    const [customer, setCustomer] = useState({
-        name: '',
-        code: '',
-        contract_no: '',
-        contract_date: '',
-        attendant: '',
-        address: '',
-        city: '',
-        pin_code: '',
-        state: '',
-        country: '',
-        e_mail: '',
-        mobile_no: '',
-        phone_1: '',
-        phone_2: '',
-        gst_no: '',
-        gst_type: '',
-        pan_no: '',
-        payment_type: '',
-    })
-    // to store errors of the form 
-    const [error, setError] = useState({})
+function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
 
     const paymentType = [
         { name: 'Cash' },
@@ -48,6 +23,14 @@ function Customer() {
         { name: 'CGST/SGST' }
     ]
 
+    // to display toast notification or success or error
+    const successNotification = () => {
+        toast.success('Successfully updated the Customer details!', { autoClose: 2500 })
+    }
+
+    const updateErrorNotification = () => {
+        toast.error('error, cannot update!', { autoClose: 3000 })
+    }
 
     const handleChange = e => {
         e.preventDefault()
@@ -59,30 +42,21 @@ function Customer() {
         })
     }
 
-    // to display toast notification or success or error
-    const successNotification = () => {
-        toast.success('Successfully created the customer', { autoClose: 2500 })
-    }
-    const failedNotification = () => {
-        toast.error('Some error occured', { autoClose: 2500 })
-    }
-
-    // to register our new customer
-    const handleSubmit = e => {
+    const handleUpdate = e => {
         e.preventDefault()
 
-        const surity = window.confirm("are you sure? you want to create new customer!")
+        const surity = window.confirm("are you sure? you want to update!")
         if (surity) {
             axios
-                .post(`http://127.0.0.1:8000/customer/`, customer)
-                .then(res => {
-                    console.log(res)
+                .put(`http://127.0.0.1:8000/customer/${customer.id}/`, customer)
+                .then(response => {
+                    setCustomer(response.data)
                     setError({})
                     successNotification()
                 })
                 .catch(error => {
                     (error.response) ? setError(error.response.data) : setError({})
-                    failedNotification()
+                    updateErrorNotification()
                 })
         }
     }
@@ -90,22 +64,24 @@ function Customer() {
 
     return (
         <>
-            <form onSubmit={e => handleSubmit(e)} id="registration" >
+
+            <form onSubmit={e => handleUpdate(e)} className="customer-details">
 
                 <div>
                     <ReusableInput
                         name="name"
-                        label="name"
+                        value={customer.name || ''}
+                        label="Company's Name"
                         error={error.name ? true : false}
                         help={error.name}
                         onChange={e => handleChange(e)}
-                    // style={{marginBottom: '1rem'}}
                     />
 
                     <ReusableInput
                         type="date"
                         name="contract_date"
-                        label=""
+                        value={customer.contract_date || ''}
+                        // label="Contract Date"
                         error={error.contract_date ? true : false}
                         help={error.contract_date}
                         onChange={e => handleChange(e)}
@@ -115,7 +91,8 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="code"
-                        label="code"
+                        value={customer.code || ''}
+                        label="Code"
                         error={error.code ? true : false}
                         help={error.code}
                         onChange={e => handleChange(e)}
@@ -125,18 +102,19 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="contract_no"
-                        label="contract no"
+                        value={customer.contract_no || ''}
+                        label="Contract-No."
                         error={error.contract_no ? true : false}
                         help={error.contract_no}
                         onChange={e => handleChange(e)}
-                        className="form-input"
                     />
                 </div>
 
                 <div>
                     <ReusableInput
                         name="attendant"
-                        label="attendant"
+                        value={customer.attendant || ''}
+                        label="Attendant"
                         error={error.attendant ? true : false}
                         help={error.attendant}
                         onChange={e => handleChange(e)}
@@ -144,7 +122,8 @@ function Customer() {
 
                     <ReusableInput
                         name="address"
-                        label="address"
+                        value={customer.address || ''}
+                        label="Address"
                         error={error.address ? true : false}
                         help={error.address}
                         onChange={e => handleChange(e)}
@@ -154,7 +133,8 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="city"
-                        label="city"
+                        value={customer.city || ''}
+                        label="City"
                         error={error.city ? true : false}
                         help={error.city}
                         onChange={e => handleChange(e)}
@@ -163,7 +143,8 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="pin_code"
-                        label="pin code"
+                        value={customer.pin_code || ''}
+                        label="Pin Code"
                         error={error.pin_code ? true : false}
                         help={error.pin_code}
                         onChange={e => handleChange(e)}
@@ -173,7 +154,8 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="state"
-                        label="state"
+                        value={customer.state || ''}
+                        label="State"
                         error={error.state ? true : false}
                         help={error.state}
                         onChange={e => handleChange(e)}
@@ -181,7 +163,8 @@ function Customer() {
 
                     <ReusableInput
                         name="country"
-                        label="country"
+                        value={customer.country || ''}
+                        label="Country"
                         error={error.country ? true : false}
                         help={error.country}
                         onChange={e => handleChange(e)}
@@ -192,7 +175,8 @@ function Customer() {
                     <ReusableInput
                         type="email"
                         name="e_mail"
-                        label="e-mail"
+                        value={customer.e_mail || ''}
+                        label="e-Mail"
                         error={error.e_mail ? true : false}
                         help={error.e_mail}
                         onChange={e => handleChange(e)}
@@ -201,7 +185,8 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="mobile_no"
-                        label="mobile-no"
+                        value={customer.mobile_no || ''}
+                        label="Mobile-No"
                         error={error.mobile_no ? true : false}
                         help={error.mobile_no}
                         onChange={e => handleChange(e)}
@@ -212,7 +197,8 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="phone_1"
-                        label="phone-1"
+                        value={customer.phone_1 || ''}
+                        label="Phone-1"
                         required={false}
                         error={error.phone_1 ? true : false}
                         help={error.phone_1}
@@ -222,7 +208,8 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="phone_2"
-                        label="phone-2"
+                        value={customer.phone_2 || ''}
+                        label="Phone-2"
                         required={false}
                         error={error.phone_2 ? true : false}
                         help={error.phone_2}
@@ -233,7 +220,8 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="gst_no"
-                        label="gst no"
+                        value={customer.gst_no || ''}
+                        label="GST No."
                         error={error.gst_no ? true : false}
                         help={error.gst_no}
                         onChange={e => handleChange(e)}
@@ -242,7 +230,7 @@ function Customer() {
                     <Autocomplete
                         options={gstType}
                         getOptionLabel={option => option.name}
-                        style={{ width: '210px' }}
+                        style={{ width: '242px' }}
                         onChange={(e, value) => setCustomer({
                             ...customer,
                             gst_type: value ? value.name : ''
@@ -262,17 +250,18 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="pan_no"
-                        label="pan no"
+                        value={customer.pan_no || ''}
+                        label="Pan-No."
                         error={error.pan_no ? true : false}
                         help={error.pan_no}
                         onChange={e => handleChange(e)}
-                        style={{ width: '210px' }}
+                        style={{ width: '242px' }}
                     />
 
                     <Autocomplete
                         options={paymentType}
                         getOptionLabel={option => option.name}
-                        style={{ width: '210px' }}
+                        style={{ width: '242px' }}
                         onChange={(e, value) => setCustomer({
                             ...customer,
                             payment_type: value ? value.name : ''
@@ -289,8 +278,8 @@ function Customer() {
                     />
                 </div>
 
-                <div id="btn">
-                    <button id="button"> Submit </button>
+                <div >
+                    <button id="customer-details-update-btn"> Update </button>
                 </div>
 
             </form>
@@ -299,4 +288,4 @@ function Customer() {
     )
 }
 
-export default Customer
+export default DisplayCustomerDetails

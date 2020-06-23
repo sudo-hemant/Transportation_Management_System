@@ -4,12 +4,12 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-
 import DisplayContracts from './DisplayContracts'
+import DisplayCustomerDetails from './DisplayCustomerDetails'
 
 
 toast.configure()
-function CustomerDashboard({ customer }) {
+function CustomerDashboard({ customer, setCustomer, error, setError }) {
 
     const history = useHistory()
 
@@ -48,19 +48,25 @@ function CustomerDashboard({ customer }) {
 
     return (
         <>
-            {/* TODO -- change UI */}
-            <h1> Details of {customer.name} </h1>
-            {
-                Object.keys(customer).map((key, index) => (
-                    <p key={index} > {key} : {customer[key]} </p>
-                ))
-            }
+            <hr /><br /><br />
 
-            <hr /><hr />
+            <DisplayCustomerDetails
+                customer={customer}
+                setCustomer={setCustomer}
+                error={error}
+                setError={setError}
+            />
+
+            <br /><br /><hr /><br /><br />
 
             <DisplayContracts contracts={contracts} />
 
-            <button onClick={e => handleCreateContract(e)} > Add Contract </button>
+            <br /><br />
+
+            <div>
+                <button id="contract-add" onClick={e => handleCreateContract(e)} > Add Contract </button>
+            </div>
+
         </>
     )
 }
