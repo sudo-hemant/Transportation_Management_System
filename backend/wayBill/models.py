@@ -4,30 +4,26 @@ from datetime import date
 
 class Bill(models.Model):
 
-    e_way_bill_no = models.IntegerField(unique=True)
+    doc_no = models.IntegerField(unique=True)
     date = models.DateField(default=date.today())
     origin = models.CharField(max_length=20)
     destination = models.CharField(max_length=20)
     shipper = models.CharField(max_length=50)
     consignee = models.CharField(max_length=50)
 
-    mode = models.CharField(max_length=50, blank=True)
+    mode = models.CharField(max_length=50)
     flight_no = models.CharField(max_length=50, blank=True)
     pieces = models.IntegerField()
-    actual_weight = models.DecimalField(max_digits=7, decimal_places=2)
+    weight = models.DecimalField(max_digits=7, decimal_places=2)
     payment_mode = models.CharField(max_length=50, blank=True)
 
-    rate_per_kg = models.DecimalField(max_digits=6, decimal_places=3)
-    declared_value = models.IntegerField(blank=True, default=0)
+    rate = models.DecimalField(max_digits=6, decimal_places=3)
     weight_charges = models.IntegerField()
-    other_charges = models.IntegerField(blank=True, default=0)
-    igst = models.IntegerField(default=0)
-    cgst = models.IntegerField(default=0)
-    sgst = models.IntegerField(default=0)
+    other_charges = models.IntegerField(default=0)
     total_charges = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return str(self.e_way_bill_no)
+        return str(self.doc_no)
 
 
 class Customer(models.Model):
