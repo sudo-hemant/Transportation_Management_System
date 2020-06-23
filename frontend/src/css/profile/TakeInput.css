@@ -1,0 +1,48 @@
+
+.input-form {
+    /* width: 38%; */
+    /* margin: 5px auto; */
+
+}
+
+.input-form input {
+    width: 10rem;
+    height: 1rem;
+}
+
+.input-form div {
+    display: flex;
+    justify-content: center;
+    margin: .3rem 1.5rem .1rem 0;
+}
+
+#shipper {
+    width: 6.3rem;
+    height: 1rem;
+}
+
+#mode {
+    width: 4.7rem;
+    height: 1rem;
+}
+
+#payment-mode {
+    width: 4.7rem;
+    height: 1rem;
+}
+
+#input-form-submit {
+    width: 9rem;
+    height: 3rem;
+    margin: 1.5rem 3rem 2rem 0;
+    border-radius: .5rem;
+    border-width: 0;
+    background-color: slategrey;
+    font-size: 1.5rem;
+    font-family: monospace;
+    color: whitesmoke;
+}
+
+#total-charges {
+    margin-top: 1rem;
+}
