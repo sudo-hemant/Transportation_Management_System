@@ -52,16 +52,18 @@ function FetchBill() {
     const handleSubmit = e => {
         e.preventDefault()
         const { customer, generate_bill_no, date_after, date_before } = form
+        console.log(customer)
         axios
             .get(`http://127.0.0.1:8000/generatebill/?customer=${customer}&generate_bill_no=${generate_bill_no}&date_after=${date_after}&date_before=${date_before}`)
+            // .get(`http://127.0.0.1:8000/generatebill/?customer=${customer}&generate_bill_no=${generate_bill_no}&date_after=${date_after}&date_before=${date_before}`)
             .then(response => {
                 console.log(response.data)
             })
 
-        console.log(typeof form.customer)
-        console.log(typeof form.generate_bill_no)
-        console.log(typeof form.date_after)
-        console.log(typeof form.date_before)
+        // console.log(typeof form.customer)
+        // console.log(typeof form.generate_bill_no)
+        // console.log(typeof form.date_after)
+        // console.log(typeof form.date_before)
     }
 
 
