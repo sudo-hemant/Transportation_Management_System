@@ -1,0 +1,39 @@
+
+#generate-bill-header {
+    display: flex;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 1rem 1rem 2rem 0;
+}
+
+.generate-bill {
+    margin: 1rem;
+}
+
+.generate-bill input {
+    width: 10rem;
+    height: 1rem;
+}
+
+.generate-bill div {
+    display: flex;
+    justify-content: center;
+    margin: .4rem .3rem .1rem 0;
+}
+
+#select-shipper {
+    width: 18.5rem;
+    height: 1rem;
+}
+
+#generate-bill-btn {
+    width: 15rem;
+    height: 3rem;
+    margin: 2rem;
+    border-radius: 1.5rem;
+    border-width: 0;
+    background-color: royalblue;
+    font-size: 1.7rem;
+    font-family: monospace;
+    color: whitesmoke;
+}

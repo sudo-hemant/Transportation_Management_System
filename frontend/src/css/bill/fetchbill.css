@@ -1,0 +1,71 @@
+#fetch-bill-header {
+    display: flex;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 1rem;
+}
+
+.fetch-bill input {
+    width: 10rem;
+    height: 1rem;
+}
+
+.fetch-bill div {
+    display: flex;
+    justify-content: center;
+    margin: .4rem .3rem .1rem 0;
+}
+
+#customer {
+    width: 6.5rem;
+    height: 1rem;
+}
+
+#fetch-bill-btn {
+    width: 13rem;
+    height: 3rem;
+    margin: 2rem;
+    border-radius: 1.5rem;
+    border-width: 0;
+    background-color: deepskyblue;
+    font-size: 1.7rem;
+    font-family: monospace;
+    color: whitesmoke;
+}
+
+
+
+
+#no-bill {
+    display: flex;
+    justify-content: center;
+    font-size: 3rem;
+    padding-top: 2rem;
+}
+
+.fetch-bill-table {
+    border-collapse: collapse;
+    margin: 2rem auto;
+    background-color: whitesmoke;
+    text-align: center;
+}
+
+.fetch-bill-table th {
+    padding: 1.5rem 1.5rem;
+}
+
+.fetch-bill-table td {
+    padding: .7rem 1rem;
+}
+
+#bill-detail-btn {
+    width: 7rem;
+    height: 2rem;
+    /* margin: 1.5rem 3rem 2rem 0; */
+    border-radius: 1rem;
+    border-width: 0;
+    background-color: crimson;
+    font-size: 1rem;
+    font-family: monospace;
+    color: whitesmoke;
+}

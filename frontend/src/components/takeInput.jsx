@@ -61,6 +61,7 @@ function TakeInput() {
                 setExistingCustomers(response.data)
                 console.log(response.data);
             })
+            .catch(error => console.log(error))
     }, [])
 
 
@@ -113,6 +114,7 @@ function TakeInput() {
 
     return (
         <>
+            <p id="header"> Enter Data </p>
 
             <form onSubmit={e => handleSubmit(e)} className="input-form" >
 
@@ -136,7 +138,7 @@ function TakeInput() {
                     />
                 </div>
 
-                <div id="ship-cons">
+                <div>
                     <Autocomplete
                         freeSolo
                         options={existingCustomers}
@@ -150,6 +152,7 @@ function TakeInput() {
                             <TextField
                                 {...params}
                                 required
+                                // fullWidth
                                 label="Shipper"
                                 name="shipper"
                                 error={error.shipper ? true : false}
@@ -189,7 +192,6 @@ function TakeInput() {
                 <div>
                     <Autocomplete
                         options={mode}
-                        // style={{ width: 234 }}
                         id="mode"
                         getOptionLabel={option => option.name}
                         onChange={(e, value) => setData({
@@ -228,7 +230,6 @@ function TakeInput() {
                     />
 
                     <ReusableInput
-                        type="number"
                         name="weight"
                         label="Weight"
                         error={error.weight ? true : false}
@@ -239,7 +240,6 @@ function TakeInput() {
 
                 <div>
                     <ReusableInput
-                        type="number"
                         name="rate"
                         label="Rate"
                         error={error.rate ? true : false}
@@ -286,7 +286,6 @@ function TakeInput() {
                         onChange={e => handleChange(e)}
                     />
                 </div>
-
 
                 <div id="total-charges">
                     <ReusableInput

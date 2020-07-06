@@ -1,0 +1,56 @@
+
+#detail-view-heading {
+    font-size: 4rem;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-family: monospace;
+    margin: 2rem;
+}
+
+#detail-view input {
+    width: 12rem;
+    height: 1rem;
+}
+
+#detail-view {
+    margin-top: 3rem;
+}
+
+#detail-view div {
+    margin: .5rem;
+}
+
+#update-btn-div {
+    display: flex;
+    justify-content: center;
+}
+
+#update-btn {
+    width: 8rem;
+    height: 3rem;
+    border-radius: .7rem;
+    border-width: 0;
+    background-color: turquoise;
+    font-size: 1.5rem;
+    font-family: monospace;
+    color: whitesmoke;
+    margin-top: 3rem;
+}
+
+#delete-btn-div {
+    display: flex;
+    justify-content: center;
+}
+
+#delete-btn {
+    width: 10rem;
+    height: 3.5rem;
+    border-radius: .7rem;
+    border-width: 0;
+    background-color: red;
+    font-size: 2rem;
+    font-family: monospace;
+    color: whitesmoke;
+    margin-top: 3rem;
+}

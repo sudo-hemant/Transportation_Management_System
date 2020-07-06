@@ -7,6 +7,7 @@ import ReusableInput from '../ReusableInput'
 
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import { useEffect } from 'react'
 
 
 toast.configure()
@@ -22,6 +23,19 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
         { name: 'IGST' },
         { name: 'CGST/SGST' }
     ]
+
+    const [selectedPaymentType, setSelectedPaymentType] = useState({})
+    const [selectedGstType, setSelectedGstType] = useState({})
+
+    useEffect(() => {
+        setSelectedGstType({
+            name: customer.payment_type
+        })
+        setSelectedPaymentType({
+            name: customer.gst_type
+        })
+    }, [])
+
 
     // to display toast notification or success or error
     const successNotification = () => {
@@ -65,6 +79,8 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
     return (
         <>
 
+            <p id="display-customer-header"> Details </p>
+
             <form onSubmit={e => handleUpdate(e)} className="customer-details">
 
                 <div>
@@ -81,7 +97,7 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         type="date"
                         name="contract_date"
                         value={customer.contract_date || ''}
-                        // label="Contract Date"
+                        label="Contract Date"
                         error={error.contract_date ? true : false}
                         help={error.contract_date}
                         onChange={e => handleChange(e)}
@@ -96,7 +112,6 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         error={error.code ? true : false}
                         help={error.code}
                         onChange={e => handleChange(e)}
-                    // style={{marginBottom: '1rem'}}
                     />
 
                     <ReusableInput
@@ -228,6 +243,8 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                     />
 
                     <Autocomplete
+                        // TODO:  RESOLVE ERROR
+                        // value={selectedGstType}
                         options={gstType}
                         getOptionLabel={option => option.name}
                         style={{ width: '242px' }}
@@ -259,6 +276,8 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                     />
 
                     <Autocomplete
+                        // TODO:  RESOLVE ERROR
+                        // value={selectedPaymentType}
                         options={paymentType}
                         getOptionLabel={option => option.name}
                         style={{ width: '242px' }}
@@ -283,7 +302,6 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                 </div>
 
             </form>
-
         </>
     )
 }

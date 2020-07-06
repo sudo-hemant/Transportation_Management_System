@@ -1,0 +1,85 @@
+#invoice {
+    width: 21cm;
+    height: 29.7cm;
+    border-style: solid;
+    margin: 0 auto;
+}
+
+#main-header {
+    display: flex;
+    height: 2.6cm;
+    /* border-style: solid; */
+}
+
+#img {
+    width: 4cm;
+    height: 2.5cm;
+    /* border-style: solid; */
+}
+
+#company-name {
+    margin: auto auto;
+    font-size: 2.5rem;
+    font-weight: bold
+}
+
+/* -------------------------- */
+
+#address {
+    display: flex;
+    justify-content: center;
+    padding: .2rem;
+}
+
+/* -------------------------- */
+#gst-pan-no {
+    height: .5cm;
+    display: flex;
+    justify-content: space-between;
+    /* border-style: solid; */
+}
+
+#gst-no {
+    padding-left: .5rem;
+}
+
+#tax-invoice {
+    padding-right: 2rem;
+}
+
+#pan-no {
+    padding-right: .7rem;
+}
+
+#invoice-details {
+    /* border-style: solid; */
+    display: flex;
+    justify-content: space-between;
+}
+
+#customer-details {
+    /* border-style: solid; */
+    padding-left: .5rem;
+}
+
+#invoice-period {
+    padding-right: 1rem;
+    white-space: pre;
+}
+
+/* ------------------------------ */
+#declaration {
+    display: flex;
+    justify-content: center;
+    padding: .2rem;
+    font-size: .8rem;
+    font-weight: bold;
+
+}
+
+
+.bill-table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}

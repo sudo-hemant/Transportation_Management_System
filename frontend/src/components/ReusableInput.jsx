@@ -12,13 +12,10 @@ function ReusableInput({ type='text', name, label, onChange, required=true, erro
                 name={name}
                 label={label}
                 variant="outlined"
-                // id="outlined-basic"
                 onChange={onChange}
                 error={error}
                 helperText={help}
                 {...params}
-                // className="form-input "
-                // style={{flexGrow: 1}}
             />
         </>
     )

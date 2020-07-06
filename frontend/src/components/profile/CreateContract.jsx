@@ -18,7 +18,7 @@ function CreateContract() {
     const [contract, setcontract] = useState({
         origin: '',
         destination: '',
-        rate: 0,
+        rate: '',
         extra_charges: 0,
         customer: state.id
     })
@@ -59,6 +59,7 @@ function CreateContract() {
                     successNotification()
                     history.goBack()
                     console.log(response)
+                    console.log(typeof response.data.rate);
                 })
                 .catch(error => {
                     (error.response) ? setError(error.response.data) : setError({})
@@ -67,50 +68,56 @@ function CreateContract() {
                 })
         }
         const surity = window.confirm("Are you sure?")
-        if (surity) 
+        if (surity)
             create()
     }
 
 
     return (
         <>
-            <form onSubmit={e => handleSubmit(e)} >
+            <p id="create-contract-header"> Create Contract </p>
 
-                <ReusableInput
-                    name="origin"
-                    label="origin"
-                    error={error.origin ? true : false}
-                    help={error.origin}
-                    onChange={e => handleChange(e)}
-                />
+            <form className="create-contract" onSubmit={e => handleSubmit(e)} >
 
-                <ReusableInput
-                    name="destination"
-                    label="destination"
-                    error={error.destination ? true : false}
-                    help={error.destination}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <ReusableInput
+                        name="origin"
+                        label="origin"
+                        error={error.origin ? true : false}
+                        help={error.origin}
+                        onChange={e => handleChange(e)}
+                    />
 
-                <ReusableInput
-                    type="number"
-                    name="rate"
-                    label="rate"
-                    error={error.rate ? true : false}
-                    help={error.rate}
-                    onChange={e => handleChange(e)}
-                />
+                    <ReusableInput
+                        name="destination"
+                        label="destination"
+                        error={error.destination ? true : false}
+                        help={error.destination}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
 
-                <ReusableInput
-                    type="number"
-                    name="extra_charges"
-                    label="extra charges"
-                    error={error.extra_charges ? true : false}
-                    help={error.extra_charges}
-                    onChange={e => handleChange(e)}
-                />
+                <div>
+                    <ReusableInput
+                        name="rate"
+                        label="rate"
+                        error={error.rate ? true : false}
+                        help={error.rate}
+                        onChange={e => handleChange(e)}
+                    />
 
-                <button> submit </button> <br />
+                    <ReusableInput
+                        name="extra_charges"
+                        label="extra charges"
+                        error={error.extra_charges ? true : false}
+                        help={error.extra_charges}
+                        onChange={e => handleChange(e)}
+                    />
+                </div>
+
+                <div>
+                    <button id="create-contract-btn"> Add Contract </button>
+                </div>
 
             </form>
         </>

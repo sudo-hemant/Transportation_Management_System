@@ -48,23 +48,18 @@ function CustomerDashboard({ customer, setCustomer, error, setError }) {
 
     return (
         <>
-            <hr /><br /><br />
-
+            <hr/>
             <DisplayCustomerDetails
                 customer={customer}
                 setCustomer={setCustomer}
                 error={error}
                 setError={setError}
-            />
-
-            <br /><br /><hr /><br /><br />
-
+            /> 
+            <hr/>
             <DisplayContracts contracts={contracts} />
 
-            <br /><br />
-
             <div>
-                <button id="contract-add" onClick={e => handleCreateContract(e)} > Add Contract </button>
+                <button id="contract-add-btn" onClick={e => handleCreateContract(e)} > Add Contract </button>
             </div>
 
         </>

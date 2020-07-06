@@ -10,6 +10,7 @@ import ReusableInput from '../ReusableInput'
 import '../../css/profile/CustomerRegistration.css'
 
 
+// customer registration
 toast.configure()
 function Customer() {
 
@@ -90,22 +91,23 @@ function Customer() {
 
     return (
         <>
-            <form onSubmit={e => handleSubmit(e)} id="registration" >
+            <p id="registration-header"> Customer Registration </p>
+
+            <form id="registration" onSubmit={e => handleSubmit(e)} >
 
                 <div>
                     <ReusableInput
                         name="name"
-                        label="name"
+                        label="Name"
                         error={error.name ? true : false}
                         help={error.name}
                         onChange={e => handleChange(e)}
-                    // style={{marginBottom: '1rem'}}
                     />
 
                     <ReusableInput
                         type="date"
                         name="contract_date"
-                        label=""
+                        label="Date"
                         error={error.contract_date ? true : false}
                         help={error.contract_date}
                         onChange={e => handleChange(e)}
@@ -115,17 +117,16 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="code"
-                        label="code"
+                        label="Code"
                         error={error.code ? true : false}
                         help={error.code}
                         onChange={e => handleChange(e)}
-                    // style={{marginBottom: '1rem'}}
                     />
 
                     <ReusableInput
                         type="number"
                         name="contract_no"
-                        label="contract no"
+                        label="Contract no."
                         error={error.contract_no ? true : false}
                         help={error.contract_no}
                         onChange={e => handleChange(e)}
@@ -136,7 +137,7 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="attendant"
-                        label="attendant"
+                        label="Attendant"
                         error={error.attendant ? true : false}
                         help={error.attendant}
                         onChange={e => handleChange(e)}
@@ -144,7 +145,7 @@ function Customer() {
 
                     <ReusableInput
                         name="address"
-                        label="address"
+                        label="Address"
                         error={error.address ? true : false}
                         help={error.address}
                         onChange={e => handleChange(e)}
@@ -154,7 +155,7 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="city"
-                        label="city"
+                        label="City"
                         error={error.city ? true : false}
                         help={error.city}
                         onChange={e => handleChange(e)}
@@ -163,7 +164,7 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="pin_code"
-                        label="pin code"
+                        label="Pin Code"
                         error={error.pin_code ? true : false}
                         help={error.pin_code}
                         onChange={e => handleChange(e)}
@@ -173,7 +174,7 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="state"
-                        label="state"
+                        label="State"
                         error={error.state ? true : false}
                         help={error.state}
                         onChange={e => handleChange(e)}
@@ -181,7 +182,7 @@ function Customer() {
 
                     <ReusableInput
                         name="country"
-                        label="country"
+                        label="Country"
                         error={error.country ? true : false}
                         help={error.country}
                         onChange={e => handleChange(e)}
@@ -192,7 +193,7 @@ function Customer() {
                     <ReusableInput
                         type="email"
                         name="e_mail"
-                        label="e-mail"
+                        label="e-Mail"
                         error={error.e_mail ? true : false}
                         help={error.e_mail}
                         onChange={e => handleChange(e)}
@@ -201,7 +202,7 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="mobile_no"
-                        label="mobile-no"
+                        label="Mobile no."
                         error={error.mobile_no ? true : false}
                         help={error.mobile_no}
                         onChange={e => handleChange(e)}
@@ -212,7 +213,7 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="phone_1"
-                        label="phone-1"
+                        label="Phone-1"
                         required={false}
                         error={error.phone_1 ? true : false}
                         help={error.phone_1}
@@ -222,7 +223,7 @@ function Customer() {
                     <ReusableInput
                         type="number"
                         name="phone_2"
-                        label="phone-2"
+                        label="Phone-2"
                         required={false}
                         error={error.phone_2 ? true : false}
                         help={error.phone_2}
@@ -233,7 +234,7 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="gst_no"
-                        label="gst no"
+                        label="GST no."
                         error={error.gst_no ? true : false}
                         help={error.gst_no}
                         onChange={e => handleChange(e)}
@@ -251,7 +252,7 @@ function Customer() {
                             <TextField
                                 {...params}
                                 required
-                                label="GST-Type"
+                                label="GST type"
                                 error={error.gst_type ? true : false}
                                 helperText={error.gst_type}
                                 variant="outlined"
@@ -262,7 +263,7 @@ function Customer() {
                 <div>
                     <ReusableInput
                         name="pan_no"
-                        label="pan no"
+                        label="Pan no."
                         error={error.pan_no ? true : false}
                         help={error.pan_no}
                         onChange={e => handleChange(e)}
@@ -270,6 +271,7 @@ function Customer() {
                     />
 
                     <Autocomplete
+                        id="testing"
                         options={paymentType}
                         getOptionLabel={option => option.name}
                         style={{ width: '210px' }}
@@ -281,7 +283,7 @@ function Customer() {
                             <TextField
                                 {...params}
                                 required
-                                label="Pay-type"
+                                label="Pay type"
                                 error={error.payment_type ? true : false}
                                 helperText={error.payment_type}
                                 variant="outlined"

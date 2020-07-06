@@ -3,25 +3,26 @@ import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 import SearchFilter from './searchFilter'
+import '../../css/history.css'
 
 
 function ListData() {
 
-    const [datas, setData] = useState([])
     const history = useHistory()
+
+    const [datas, setData] = useState([])
     
-    // loading list of data on page load
-    useEffect(() => {
-        axios
-            .get(`http://127.0.0.1:8000/bill`)
-            .then( response => setData(response.data) )
-            .catch( error => console.log(error) )
-    }, [])
+    // // loading list of data on page load
+    // useEffect(() => {
+    //     axios
+    //         .get(`http://127.0.0.1:8000/bill`)
+    //         .then(response => setData(response.data) )
+    //         .catch(error => console.log(error) )
+    // }, [])
 
     // for viewing the details of any data
     const handleDetailView = (e, id) => {
         e.preventDefault()
-        // history.push(`detail/${id}`)
         history.push({
             pathname: `/detail/${id}`,
             state: { id }
@@ -31,11 +32,13 @@ function ListData() {
 
     return (
         <div>
+            <p id="filter"> Filter </p>
 
-            {/* for filtering the data according to user's need */}
-            <SearchFilter setData={ setData } />
+            <SearchFilter setData={ setData } /> <hr/>
+            
+            <table border="1" id="history-table" >
 
-            <table border="1" style={{borderCollapse: 'collapse'}} >
+                <caption id="caption"> Last few transactions </caption>
 
                 <thead>
                     <tr>
@@ -66,7 +69,7 @@ function ListData() {
                             <td> { data.weight } </td>
                             <td> { data.total_charges } </td>
                             <td>
-                                <button onClick={ e => handleDetailView(e, data.id) } > See Details </button>
+                                <button id="detail-btn" onClick={ e => handleDetailView(e, data.id) } > See Details </button>
                             </td>
                             
                         </tr>

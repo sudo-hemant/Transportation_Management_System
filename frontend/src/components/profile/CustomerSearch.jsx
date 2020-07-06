@@ -74,23 +74,22 @@ function CustomerSearch() {
     return (
         <div id="dashboard">
 
-            <div id="header">
-                <h1> <i> Select customer to view profile ! </i> </h1>
+            <div>
+                <p id="header"> Select customer to view profile! </p>
             </div>
-
-            <br /><hr /><br />
 
             <div id="dashboard-form">
                 <form onSubmit={e => fetchShipperData(e)}>
                     <div>
                         <Autocomplete
+                            id="customers"
                             options={allCustomers}
-                            style={{ width: 300 }}
                             getOptionLabel={option => option.name}
                             onChange={(e, value) => handleChange(e, value)}
                             renderInput={params =>
                                 <TextField
                                     {...params}
+                                    autoFocus={true}
                                     required
                                     label="Select Customer"
                                     variant="outlined"
