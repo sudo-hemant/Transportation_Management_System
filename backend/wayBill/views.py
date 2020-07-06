@@ -8,8 +8,8 @@ from django_filters import rest_framework as filters
 from .models import Bill, Contracts, Customer, GenerateBill
 from .serializers import BillSerializer, BillIdsSerializer,\
                             ContractSerializer, CustomerSerializer,\
-                            CustomerNameSerializer, GenerateBillSerializer,\
-                            ListGenerateBillSerializer    
+                            CustomerNameSerializer, GenerateBillSerializer, \
+                            ListGenerateBillSerializer 
 from .filters import BillFilter, BillIdsFilter, ContractFilter, \
                         CustomerFilter, GenerateBillFilter
 
@@ -20,13 +20,6 @@ class BillList(viewsets.ModelViewSet):
     filter_backends = ( filters.DjangoFilterBackend, SearchFilter )
     filterset_class = BillFilter
     # filterset_fields = ['origin', 'consignee']
-
-
-class BillIdsList(generics.ListAPIView):
-    queryset = Bill.objects.all()
-    serializer_class = BillIdsSerializer
-    filter_backends = ( filters.DjangoFilterBackend, SearchFilter )
-    filterset_class = BillIdsFilter
 
 
 class ContractsList(viewsets.ModelViewSet):
@@ -43,11 +36,6 @@ class CustomerList(viewsets.ModelViewSet):
     filterset_class = CustomerFilter
 
 
-class CustomerNameList(generics.ListAPIView):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerNameSerializer
-
-
 class GenerateBillList(viewsets.ModelViewSet):
     queryset = GenerateBill.objects.all()
     serializer_class = GenerateBillSerializer
@@ -55,13 +43,33 @@ class GenerateBillList(viewsets.ModelViewSet):
     filterset_class = GenerateBillFilter
 
 
-class AllGenerateBillList(generics.RetrieveAPIView):
+# ------------------------------------------------------------------------
+
+
+# to display list of existing bill and filter 
+class BillIdsList(generics.ListAPIView):
+    queryset = Bill.objects.all()
+    serializer_class = BillIdsSerializer
+    filter_backends = ( filters.DjangoFilterBackend, SearchFilter )
+    filterset_class = BillIdsFilter
+
+
+# to help display existing customer in autocomplete 
+class CustomerNameList(generics.ListAPIView):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerNameSerializer
+
+
+# to see bill in detail and be able to delete it
+class ListGenerateBillList(viewsets.ModelViewSet):
     queryset = GenerateBill.objects.all()
     serializer_class = ListGenerateBillSerializer
 
 
-# remove it
-class ListGenerateBillList(generics.ListAPIView):
-    queryset = GenerateBill.objects.all()
-    serializer_class = ListGenerateBillSerializer
+
+# # remove it
+# class AllGenerateBillList(generics.RetrieveAPIView):
+#     queryset = GenerateBill.objects.all()
+#     serializer_class = ListGenerateBillSerializer
+
 

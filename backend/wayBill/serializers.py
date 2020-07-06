@@ -9,12 +9,6 @@ class BillSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BillIdsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bill
-        fields = ( 'id', 'date', 'shipper', 'actual_weight', 'total_charges' )
-
-
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contracts
@@ -27,18 +21,31 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CustomerNameSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer 
-        fields = ( 'id', 'name' )
-
-
 class GenerateBillSerializer(serializers.ModelSerializer):
     class Meta:
         model = GenerateBill
         fields = '__all__'
 
 
+# -------------------------------------------------------------
+
+
+# to help display existing customer in autocomplete 
+class CustomerNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer 
+        fields = ( 'id', 'name' )
+
+
+# TODO: THIS IS WRONG, I THINK BCOS THIS FEATURE I WANT IN GENERATE BILL BUT INSTEAD MADE IN TRANSACTION
+# to display list of existing bill and filter 
+class BillIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bill
+        fields = ( 'id', 'date', 'shipper', 'weight', 'total_charges' )
+
+
+# to see each bill in detail
 class ListGenerateBillSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(many=False)
     bill = BillSerializer(many=True)

@@ -5,8 +5,9 @@ from django_filters import FilterSet, CharFilter, NumberFilter, \
 from .models import Bill, Contracts, Customer, GenerateBill
 
 
+# TODO: NO USE NOW - I THINK BCOS LASTFEWTRANSACTIONFILTER IS HANDLING THE SAME THING
 class BillFilter(FilterSet):
-    bill_no = NumberFilter(field_name='e_way_bill_no', lookup_expr="iexact")
+    bill_no = NumberFilter(field_name='doc_no', lookup_expr="iexact")
     date = DateFromToRangeFilter(field_name="date")
     origin = CharFilter(field_name='origin', lookup_expr="icontains")
     destination = CharFilter(field_name='destination', lookup_expr="icontains")
@@ -16,16 +17,6 @@ class BillFilter(FilterSet):
     class Meta:
         model = Bill
         fields = [ 'bill_no', 'date', 'origin', 'destination', 'shipper', 'consignee', ]
-
-
-class BillIdsFilter(FilterSet):
-    date = DateFromToRangeFilter(field_name="date")
-    shipper = CharFilter(field_name='shipper', lookup_expr="iexact" ) # it defaults to exact lookup
-
-    class Meta: 
-        model = Bill
-        fields = [ 'date', 'shipper' ]
-
 
 
 class ContractFilter(FilterSet):
@@ -58,3 +49,15 @@ class GenerateBillFilter(FilterSet):
     class Meta:
         model = GenerateBill
         fields = ['customer', 'generate_bill_no', 'date']
+
+
+# --------------------------------------------------------------------------------------
+
+
+class BillIdsFilter(FilterSet):
+    date = DateFromToRangeFilter(field_name="date")
+    shipper = CharFilter(field_name='shipper', lookup_expr="iexact" ) # it defaults to exact lookup
+
+    class Meta: 
+        model = Bill
+        fields = [ 'date', 'shipper' ]

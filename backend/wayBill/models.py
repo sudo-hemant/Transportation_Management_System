@@ -11,16 +11,16 @@ class Bill(models.Model):
     shipper = models.CharField(max_length=50)
     consignee = models.CharField(max_length=50)
 
-    mode = models.CharField(max_length=50)
-    flight_no = models.CharField(max_length=50, blank=True)
+    mode = models.CharField(max_length=20)
+    flight_no = models.CharField(max_length=30, blank=True)
     pieces = models.IntegerField()
     weight = models.DecimalField(max_digits=7, decimal_places=2)
-    payment_mode = models.CharField(max_length=50, blank=True)
+    payment_mode = models.CharField(max_length=20, blank=True)
 
     rate = models.DecimalField(max_digits=6, decimal_places=3)
     weight_charges = models.IntegerField()
     other_charges = models.IntegerField(default=0)
-    total_charges = models.DecimalField(max_digits=7, decimal_places=2)
+    total_charges = models.DecimalField(max_digits=9, decimal_places=2)
 
     def __str__(self):
         return str(self.doc_no)
@@ -72,7 +72,7 @@ class GenerateBill(models.Model):
     bill_date = models.DateField(default=date.today())
     date_from = models.DateField(default=date.today())
     date_to = models.DateField(default=date.today())
-    total_weight = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
-    total_amount = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    total_weight = models.DecimalField(max_digits=8, decimal_places=2)
+    total_amount = models.DecimalField(max_digits=8, decimal_places=2)
 
 
