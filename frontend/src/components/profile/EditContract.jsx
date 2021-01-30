@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import ReusableInput from '../ReusableInput'
+import '../../css/profile/CustomerDashboard.css'
 
 
 toast.configure()
@@ -97,9 +98,9 @@ function EditContract() {
 
     return (
         <>
-            <p> Edit Contract </p>
+            <p id="edit-contract-header"> Edit Contract </p>
 
-            <form onSubmit={e => handleContractUpdate(e)}>
+            <form className="edit-contract" onSubmit={e => handleContractUpdate(e)}>
                 <div>
                     <ReusableInput
                         name="origin"
@@ -141,11 +142,14 @@ function EditContract() {
                 </div>
 
                 <div>
-                    <button id=""> Update Contract </button>
+                    <button id="update-contract-btn"> Update </button>
                 </div>
             </form>
 
-            <button id="delete-contract" onClick={e => handleContractDelete(e)}> Delete </button>
+            <div className="delete-contract">
+                <button id="delete-contract-btn" onClick={e => handleContractDelete(e)}> Delete </button>
+            </div>
+
         </>
     )
 }

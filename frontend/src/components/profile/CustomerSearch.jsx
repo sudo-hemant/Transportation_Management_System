@@ -31,7 +31,11 @@ function CustomerSearch() {
     // will fetch the list of all existing customers (ie, name, id)
     useEffect(() => {
         axios
-            .get(`http://127.0.0.1:8000/customersname`)
+            .get(`http://127.0.0.1:8000/customersname`, {
+                headers: {
+                    Authorization: `JWT ${localStorage.getItem('token')}`
+                }
+            })
             .then(respose => {
                 setAllCustomers(respose.data)
                 console.log(respose.data);
@@ -58,7 +62,11 @@ function CustomerSearch() {
 
         const fetch = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/customer/${form.id}`)
+                const response = await axios.get(`http://127.0.0.1:8000/customer/${form.id}`, {
+                    headers: {
+                        Authorization: `JWT ${localStorage.getItem('token')}`
+                    }
+                })
                 const data = await response.data
                 setCustomer(data)
                 setDisplayDashboard(true)

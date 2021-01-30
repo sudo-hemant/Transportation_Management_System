@@ -32,6 +32,7 @@ function Customer() {
         phone_2: '',
         gst_no: '',
         gst_type: '',
+        gst_rate: '',
         pan_no: '',
         payment_type: '',
     })
@@ -112,9 +113,7 @@ function Customer() {
                         help={error.contract_date}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="code"
                         label="Code"
@@ -122,6 +121,9 @@ function Customer() {
                         help={error.code}
                         onChange={e => handleChange(e)}
                     />
+                </div>
+
+                <div>
 
                     <ReusableInput
                         type="number"
@@ -132,9 +134,7 @@ function Customer() {
                         onChange={e => handleChange(e)}
                         className="form-input"
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="attendant"
                         label="Attendant"
@@ -169,9 +169,7 @@ function Customer() {
                         help={error.pin_code}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="state"
                         label="State"
@@ -179,7 +177,9 @@ function Customer() {
                         help={error.state}
                         onChange={e => handleChange(e)}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         name="country"
                         label="Country"
@@ -187,9 +187,7 @@ function Customer() {
                         help={error.country}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         type="email"
                         name="e_mail"
@@ -229,17 +227,17 @@ function Customer() {
                         help={error.phone_2}
                         onChange={e => handleChange(e)}
                     />
+
+                    <ReusableInput
+                        name="gst_rate"
+                        label="GST rate"
+                        error={error.gst_rate ? true : false}
+                        help={error.gst_rate}
+                        onChange={e => handleChange(e)}
+                    />
                 </div>
 
                 <div>
-                    <ReusableInput
-                        name="gst_no"
-                        label="GST no."
-                        error={error.gst_no ? true : false}
-                        help={error.gst_no}
-                        onChange={e => handleChange(e)}
-                    />
-
                     <Autocomplete
                         options={gstType}
                         getOptionLabel={option => option.name}
@@ -258,9 +256,15 @@ function Customer() {
                                 variant="outlined"
                             />}
                     />
-                </div>
 
-                <div>
+                    <ReusableInput
+                        name="gst_no"
+                        label="GST no."
+                        error={error.gst_no ? true : false}
+                        help={error.gst_no}
+                        onChange={e => handleChange(e)}
+                    />
+
                     <ReusableInput
                         name="pan_no"
                         label="Pan no."
@@ -269,7 +273,9 @@ function Customer() {
                         onChange={e => handleChange(e)}
                         style={{ width: '210px' }}
                     />
+                </div>
 
+                <div>
                     <Autocomplete
                         id="testing"
                         options={paymentType}

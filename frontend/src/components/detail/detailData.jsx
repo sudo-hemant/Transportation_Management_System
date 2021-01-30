@@ -20,23 +20,55 @@ function DetailData() {
     const id = state.id
 
     // to store the data to be updated  
-    // const [update, setUpdate] = useState([])
+    const [update, setUpdate] = useState([])
     const [error, setError] = useState({})
 
     // storing name of all existing clients for prediction in shipper
     const [existingCustomers, setExistingCustomers] = useState([])
 
-    // const mode = [
-    //     { name: 'Air' },
-    //     { name: 'Train' },
-    //     { name: 'Surface' }
-    // ]
+    const [selectedShipper, setSelectedShipper] = useState(null)
+    const [selectedMode, setSelectedMode] = useState(null)
+    const [selectedPaymentMode, setSelectedPaymentMode] = useState(null)
+
+    const mode = [
+        { name: 'Air' },
+        { name: 'Train' },
+        { name: 'Surface' }
+    ]
 
     const paymentMode = [
         { name: 'Cash' },
         { name: 'Credit' },
         { name: 'Cheque' }
     ]
+
+
+    useEffect(() => {
+        axios
+            .get(`http://127.0.0.1:8000/bill/${id}`)
+            .then(response => {
+                const data = response.data
+                console.log(data)
+                setUpdate(data)
+                setSelectedShipper({
+                    name: data.shipper
+                })
+                setSelectedMode({
+                    name: data.mode
+                })
+                setSelectedPaymentMode({
+                    name: data.payment_mode
+                })
+
+                return axios.get(`http://127.0.0.1:8000/customersname`)
+            })
+            .then(response => {
+                setExistingCustomers(response.data)
+                console.log(response.data)
+            })
+
+    }, [])
+
 
     // toast notifications
     const updateNotification = () => {
@@ -54,40 +86,6 @@ function DetailData() {
     const errorDeletionNotification = () => {
         toast.error('error occured while deletion!', { autoClose: 2500 })
     }
-
-    // const selectedShipper = { name: '' }
-    const [selectedShipper, setSelectedShipper] = useState({ name: '' })
-    // const selectedMode = [{ name: 'Train' }]
-    // const [selectedMode, setSelectedMode] = useState([{ name: '' }])
-    const [selectedPaymentMode, setSelectedPaymentMode] = useState([{ name: '' }])
-
-
-    // useEffect(() => {
-    //     axios
-    //         .get(`http://127.0.0.1:8000/bill/${id}`)
-    //         .then(response => {
-    //             const data = response.data
-    //             setUpdate(data)
-
-    //             // selectedShipper.name = data.shipper
-    //             // selectedMode.name = data.mode
-    //             setSelectedShipper({ name: data.shipper })
-    //             setSelectedMode([ {name: data.mode} ])
-    //             setSelectedPaymentMode([ {name: data.payment_mode} ])
-
-    //             console.log("changed");
-    //             console.log(selectedMode)
-    //             console.log(selectedMode.length);
-
-    //             console.log(data)
-    //             return axios.get(`http://127.0.0.1:8000/customersname`)
-    //         })
-    //         .then(response => {
-    //             setExistingCustomers(response.data)
-    //             console.log(response.data)
-    //         })
-
-    // }, [])
 
 
     // to update data in database as requested by user
@@ -139,41 +137,41 @@ function DetailData() {
     }
 
 
-    const [update, setUpdate] = useState([])
+    // const [update, setUpdate] = useState([])
     // const [selectedMode, setSelectedMode] = useState([{ name: '' }])
-    const [selectedMode, setSelectedMode] = useState({ name: '' })
-    const mode = [
-        { name: 'Air' },
-        { name: 'Train' },
-        { name: 'Surface' }
-    ]
-    const [loading, setLoading] = useState(true)
-    useEffect(() => {
-        // const test = async() => {
-        //     const response = await axios.get(`http://127.0.0.1:8000/bill/${id}`)
-        //     const data = await response.data
-        //     setUpdate(data)
-        //     setSelectedMode([{ ...setSelectedMode, name: data.mode }])
-        //     console.log(selectedMode)
-        //     console.log(data)
-        // }
-        // test()
-        axios
-            .get(`http://127.0.0.1:8000/bill/${id}`)
-            .then(response => {
-                const data = response.data
-                setUpdate(data)
-                // setSelectedMode([{ name: data.mode }])
-                setSelectedMode({ name: data.mode })
-                setLoading(false)
-            })
-    }, [])
+    // const [selectedMode, setSelectedMode] = useState({ name: '' })
+    // const mode = [
+    //     { name: 'Air' },
+    //     { name: 'Train' },
+    //     { name: 'Surface' }
+    // ]
+    // const [loading, setLoading] = useState(true)
+    // useEffect(() => {
+    //     // const test = async() => {
+    //     //     const response = await axios.get(`http://127.0.0.1:8000/bill/${id}`)
+    //     //     const data = await response.data
+    //     //     setUpdate(data)
+    //     //     setSelectedMode([{ ...setSelectedMode, name: data.mode }])
+    //     //     console.log(selectedMode)
+    //     //     console.log(data)
+    //     // }
+    //     // test()
+    //     axios
+    //         .get(`http://127.0.0.1:8000/bill/${id}`)
+    //         .then(response => {
+    //             const data = response.data
+    //             setUpdate(data)
+    //             // setSelectedMode([{ name: data.mode }])
+    //             setSelectedMode({ name: data.mode })
+    //             setLoading(false)
+    //         })
+    // }, [])
 
     return (
         <>
             <p id="detail-view-heading"> Detail View </p>
 
-            <form id="detail-view" onSubmit={e => handleUpdate(e)} >
+            <form className="detail-view" onSubmit={e => handleUpdate(e)} >
 
                 <div>
                     <ReusableInput
@@ -197,12 +195,11 @@ function DetailData() {
                     />
 
                     <Autocomplete
-                        style={{ width: "200px" }}
+                        style={{ width: "240px" }}
                         freeSolo
                         value={selectedShipper}
                         options={existingCustomers}
                         getOptionLabel={option => option.name}
-                        getOptionSelected={(option, value) => option.name === value.name}
                         onChange={(e, value) => setUpdate({
                             ...update,
                             shipper: value ? value.name : ''
@@ -219,7 +216,9 @@ function DetailData() {
                                 variant="outlined"
                             />}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         name="consignee"
                         label="Consignee"
@@ -246,14 +245,15 @@ function DetailData() {
                         help={error.destination}
                         onChange={e => handleChange(e)}
                     />
+                </div>
 
-                    {/* TODO:  */}
-                    {/* <Autocomplete
-                        style={{ width: "200px" }}
-                        defaultValue={selectedMode.name ? selectedMode : null}
+                <div>
+                    <Autocomplete
+                        style={{ width: '240px' }}
+                        freeSolo
+                        value={selectedMode}
                         options={mode}
                         getOptionLabel={option => option.name}
-                        getOptionSelected={(option, value) => option.name === value.name}
                         onChange={(e, value) => setUpdate({
                             ...update,
                             mode: value ? value.name : ''
@@ -267,41 +267,7 @@ function DetailData() {
                                 helperText={error.mode}
                                 variant="outlined"
                             />}
-                    /> */}
-
-                    {!loading &&
-                        <Autocomplete
-                            // defaultValue={selectedMode.name ? selectedMode : null}
-                            value={selectedMode}
-                            options={mode}
-                            getOptionLabel={option => option.name}
-                            getOptionSelected={(option, value) => value.name ? option.name === value.name : null}
-                            // onChange={(e, value) => setUpdate({
-                            //     ...update,
-                            //     mode: value ? value.name : ''
-                            // })}
-                            onChange={(e, value) => {
-                                setSelectedMode({
-                                    ...selectedMode,
-                                    name: value ? value.name : ''
-                                })
-                                setUpdate({
-                                    ...update,
-                                    mode: value ? value.name : ''
-                                })
-                            }}
-                            renderInput={params =>
-                                <TextField
-                                    {...params}
-                                    required
-                                    label="Mode"
-                                    error={error.mode ? true : false}
-                                    helperText={error.mode}
-                                    variant="outlined"
-                                />}
-                        />
-                    }
-
+                    />
 
                     <ReusableInput
                         required={false}
@@ -322,7 +288,9 @@ function DetailData() {
                         help={error.pieces}
                         onChange={e => handleChange(e)}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         name="weight"
                         label="Weight"
@@ -341,13 +309,12 @@ function DetailData() {
                         onChange={e => handleChange(e)}
                     />
 
-                    {/* TODO:  */}
                     <Autocomplete
-                        style={{ width: '200px' }}
-                        defaultValue={selectedPaymentMode.name ? selectedPaymentMode : null}
+                        style={{ width: '240px' }}
+                        freeSolo
+                        value={selectedPaymentMode}
                         options={paymentMode}
                         getOptionLabel={option => option.name}
-                        getOptionSelected={(option, value) => option.name === value.name}
                         onChange={(e, value) => setUpdate({
                             ...update,
                             payment_mode: value ? value.name : ''
@@ -362,7 +329,9 @@ function DetailData() {
                                 variant="outlined"
                             />}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         type="number"
                         name="weight_charges"
@@ -391,10 +360,10 @@ function DetailData() {
                         help={error.total_charges}
                         onChange={e => handleChange(e)}
                     />
-
                 </div>
 
-                <div id="update-btn-div">
+
+                <div>
                     <button id="update-btn"> Update </button>
                 </div>
 

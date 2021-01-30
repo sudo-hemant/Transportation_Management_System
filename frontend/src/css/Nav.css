@@ -1,0 +1,13 @@
+.navbar {
+    /* background-color: seashell; */
+    /* background-color: chartreuse; */
+    height: 3rem;
+    display: flex;
+}
+
+
+#test {
+    padding: 1rem;
+    /* background-color: coral; */
+    text-decoration: none;
+}

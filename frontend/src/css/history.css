@@ -4,7 +4,7 @@
     justify-content: center;
     font-size: 3rem;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    padding: 1rem 4rem 0 0;
+    padding: 1rem 0;
 }
 
 #search-filter input {
@@ -15,13 +15,13 @@
 #search-filter div {
     display: flex;
     justify-content: center;
-    margin: .4rem 1.5rem .1rem 0;
+    margin: .4rem .5rem .1rem .3rem;
 }
 
 #filter-btn {
     width: 9rem;
     height: 3rem;
-    margin: 1.5rem 3rem 2rem 0;
+    margin: 1.5rem 0 2rem 0;
     border-radius: 1.5rem;
     border-width: 0;
     background-color: darkturquoise;
@@ -36,7 +36,7 @@
     border-collapse: collapse;
     margin: 2rem auto;
     padding: 2rem;
-
+    text-align: center;
 }
 
 #history-table th {
@@ -60,4 +60,10 @@
     font-family: monospace;
     background-color: royalblue;
     color: whitesmoke;
+}
+
+#no-data-exists {
+    display: flex;
+    justify-content: center;
+    font-size: 4rem;
 }

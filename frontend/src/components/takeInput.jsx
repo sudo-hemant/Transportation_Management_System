@@ -56,7 +56,11 @@ function TakeInput() {
 
     useEffect(() => {
         axios
-            .get(`http://127.0.0.1:8000/customersname`)
+            .get(`http://127.0.0.1:8000/customersname`, {
+                headers: {
+                    Authorization: `JWT ${localStorage.getItem('token')}`
+                }
+            })
             .then(response => {
                 setExistingCustomers(response.data)
                 console.log(response.data);
@@ -77,7 +81,7 @@ function TakeInput() {
     const handleSubmit = e => {
         e.preventDefault()
         axios
-            .post('http://127.0.0.1:8000/bill/', data)
+            .post('http://127.0.0.1:8000/bill/', data )
             .then(res => {
                 setError({})
                 successNotification()
@@ -136,9 +140,7 @@ function TakeInput() {
                         help={error.date}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <Autocomplete
                         freeSolo
                         options={existingCustomers}
@@ -161,7 +163,9 @@ function TakeInput() {
                                 variant="outlined"
                             />}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         name="consignee"
                         label="Consignee"
@@ -169,9 +173,7 @@ function TakeInput() {
                         help={error.consignee}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="origin"
                         label="Origin"
@@ -217,9 +219,7 @@ function TakeInput() {
                         help={error.flight_no}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         type="number"
                         name="pieces"
@@ -228,7 +228,9 @@ function TakeInput() {
                         help={error.pieces}
                         onChange={e => handleChange(e)}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         name="weight"
                         label="Weight"
@@ -236,9 +238,7 @@ function TakeInput() {
                         help={error.weight}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="rate"
                         label="Rate"
@@ -285,9 +285,7 @@ function TakeInput() {
                         help={error.other_charges}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div id="total-charges">
                     <ReusableInput
                         type="number"
                         name="total_charges"

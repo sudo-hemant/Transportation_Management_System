@@ -28,6 +28,14 @@ function BillSummary() {
 
     const [displayTable, setDisplayTable] = useState(false)
 
+    const AllEmptyNotification = () => {
+        toast.info('Select atleast 1 field', { autoClose: 3000 })
+    }
+
+    const FetchingErrorNotification = () => {
+        toast.error('Cannot fetch data, Try again!', { autoClose: 3000 })
+    }
+
     useEffect(() => {
         axios
             .get(`http://127.0.0.1:8000/customersname`)
@@ -62,7 +70,7 @@ function BillSummary() {
 
         let allEmpty = true
         for (const key in form) {
-            if (form[key] !== '') {
+            if (form[key] != '') {
                 allEmpty = false
             }
         }
@@ -78,10 +86,10 @@ function BillSummary() {
                 })
                 .catch(error => {
                     (error.response) ? setError(error.response.data) : setError({})
+                    FetchingErrorNotification()
                 })
         } else {
-            // TODO: NOTIFY 
-            console.log("select atleast 1 field")
+            AllEmptyNotification()
         }
     }
 
@@ -102,6 +110,7 @@ function BillSummary() {
                         renderInput={params =>
                             <TextField
                                 {...params}
+                                autoFocus={true}
                                 label="customer"
                                 variant="outlined"
                             />}

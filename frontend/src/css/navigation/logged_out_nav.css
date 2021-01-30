@@ -1,0 +1,60 @@
+/* ---------- NAVBAR.JSX ---------- */
+.logged-out-nav {
+    display: flex;
+    justify-content: center;
+    background-color: lightgray;
+}
+
+.logged-out-nav p {
+    padding: 1.5rem;
+    color: black;
+}
+
+.logged-out-nav p:hover {
+    background-color: cyan;
+}
+
+
+.logged-in-nav {
+    background-color: darkblue;
+    padding: 1.5rem;
+    display: flex;
+    ;
+}
+
+.logged-in-nav a {
+    padding: 2rem;
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+}
+
+#test:hover {
+    background-color: cyan;
+    padding: 1.5rem 2rem;
+}
+
+#logout-div {
+    margin-left: 35rem;
+}
+
+#logout {
+    color: whitesmoke;
+    font-size: 1.2rem;
+}
+
+#logout:hover {
+    color: cyan;
+}
+
+
+/* ---------- LOGINFORM.JSX ---------- */
+.login-form {
+    /* background-color: coral; */
+    margin-top: 5rem;
+}
+
+.login-form div {
+    margin: 2rem;
+    text-align: center;
+}

@@ -24,15 +24,15 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
         { name: 'CGST/SGST' }
     ]
 
-    const [selectedPaymentType, setSelectedPaymentType] = useState({})
-    const [selectedGstType, setSelectedGstType] = useState({})
+    const [selectedGstType, setSelectedGstType] = useState(null)
+    const [selectedPaymentType, setSelectedPaymentType] = useState(null)
 
     useEffect(() => {
         setSelectedGstType({
-            name: customer.payment_type
+            name: customer.gst_type
         })
         setSelectedPaymentType({
-            name: customer.gst_type
+            name: customer.payment_type
         })
     }, [])
 
@@ -102,9 +102,7 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.contract_date}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="code"
                         value={customer.code || ''}
@@ -113,7 +111,9 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.code}
                         onChange={e => handleChange(e)}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         type="number"
                         name="contract_no"
@@ -123,9 +123,7 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.contract_no}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="attendant"
                         value={customer.attendant || ''}
@@ -164,9 +162,7 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.pin_code}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="state"
                         value={customer.state || ''}
@@ -175,7 +171,9 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.state}
                         onChange={e => handleChange(e)}
                     />
+                </div>
 
+                <div>
                     <ReusableInput
                         name="country"
                         value={customer.country || ''}
@@ -184,9 +182,7 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.country}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         type="email"
                         name="e_mail"
@@ -230,9 +226,7 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.phone_2}
                         onChange={e => handleChange(e)}
                     />
-                </div>
 
-                <div>
                     <ReusableInput
                         name="gst_no"
                         value={customer.gst_no || ''}
@@ -241,10 +235,12 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         help={error.gst_no}
                         onChange={e => handleChange(e)}
                     />
+                </div>
 
+                <div>
                     <Autocomplete
-                        // TODO:  RESOLVE ERROR
-                        // value={selectedGstType}
+                        freeSolo
+                        value={selectedGstType}
                         options={gstType}
                         getOptionLabel={option => option.name}
                         style={{ width: '242px' }}
@@ -262,9 +258,16 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                                 variant="outlined"
                             />}
                     />
-                </div>
 
-                <div>
+                    <ReusableInput
+                        name="gst_rate"
+                        value={customer.gst_rate || ''}
+                        label="GST rate"
+                        error={error.gst_rate ? true : false}
+                        help={error.gst_rate}
+                        onChange={e => handleChange(e)}
+                    />
+
                     <ReusableInput
                         name="pan_no"
                         value={customer.pan_no || ''}
@@ -274,11 +277,13 @@ function DisplayCustomerDetails({ customer, setCustomer, error, setError }) {
                         onChange={e => handleChange(e)}
                         style={{ width: '242px' }}
                     />
+                </div>
 
+                <div>
                     <Autocomplete
-                        // TODO:  RESOLVE ERROR
-                        // value={selectedPaymentType}
+                        freeSolo
                         options={paymentType}
+                        value={selectedPaymentType}
                         getOptionLabel={option => option.name}
                         style={{ width: '242px' }}
                         onChange={(e, value) => setCustomer({
