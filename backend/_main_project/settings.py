@@ -27,21 +27,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'wayBill.apps.WaybillConfig',
+    'accounts.apps.AccountsConfig',
 
     'rest_framework',
     'corsheaders',
-    'django_filters'
-]
+    'django_filters']
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # new
-    'django.middleware.common.CommonMiddleware', # new
+    'corsheaders.middleware.CorsMiddleware',  # new must be placed above CommonMiddleware
+    'django.middleware.common.CommonMiddleware',  # new
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    # 'django.contrib.auth.middleware.RemoteUserMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -117,18 +120,29 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ],
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
-    ]
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'knox.auth.TokenAuthentication',
+    # ),
+    'DATETIME_FORMAT': "%m/%d/%Y %H:%M:%S",
 }
 
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
+
+
+
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     'django.contrib.auth.backends.RemoteUserBackend',
+# ]
 
