@@ -1,17 +1,21 @@
+
 from django.shortcuts import render
 
-from rest_framework import generics, filters, viewsets
+from rest_framework import generics, filters, viewsets, permissions
 from rest_framework.filters import OrderingFilter, SearchFilter
 # from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 
 from .models import Bill, Contracts, Customer, GenerateBill
-from .serializers import BillSerializer, BillIdsSerializer,\
-                            ContractSerializer, CustomerSerializer,\
-                            CustomerNameSerializer, GenerateBillSerializer, \
-                            ListGenerateBillSerializer 
+from .serializers import ( 
+                            BillSerializer, BillIdsSerializer,
+                            ContractSerializer, CustomerSerializer,
+                            CustomerNameSerializer, GenerateBillSerializer, 
+                            ListGenerateBillSerializer
+                        )
 from .filters import BillFilter, BillIdsFilter, ContractFilter, \
                         CustomerFilter, GenerateBillFilter
+
 
 
 class BillList(viewsets.ModelViewSet):
@@ -20,6 +24,13 @@ class BillList(viewsets.ModelViewSet):
     filter_backends = ( filters.DjangoFilterBackend, SearchFilter )
     filterset_class = BillFilter
     # filterset_fields = ['origin', 'consignee']
+    # permission_classes = [permissions.IsAuthenticated]
+
+    # def get_queryset(self):
+    #     return self.request.user.doc.all()
+
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
 
 
 class ContractsList(viewsets.ModelViewSet):
@@ -67,9 +78,20 @@ class ListGenerateBillList(viewsets.ModelViewSet):
 
 
 
+
+
+# class Testing(generics.ListAPIView):
+    # queryset = Customer.objects.raw('select id, name, gst_rate from waybill_customer order by id desc limit 1 ') where user==12
+#     serializer_class = CustomerSerializer
+#     # queryset = Customer.objects.all()
+#     # serializer_class = TestingSerializer
+
+
+
 # # remove it
 # class AllGenerateBillList(generics.RetrieveAPIView):
 #     queryset = GenerateBill.objects.all()
 #     serializer_class = ListGenerateBillSerializer
+
 
 

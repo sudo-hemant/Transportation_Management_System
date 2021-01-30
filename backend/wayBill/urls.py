@@ -17,5 +17,8 @@ urlpatterns = [
     path("billids/", BillIdsList.as_view(), name="bill-ids"),
     path("customersname/", CustomerNameList.as_view(), name="customers-name"),
 
+
+    # path("testing/", Testing.as_view()),
+
 ]
 urlpatterns += router.urls

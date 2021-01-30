@@ -56,7 +56,7 @@ class GenerateBillFilter(FilterSet):
 
 class BillIdsFilter(FilterSet):
     date = DateFromToRangeFilter(field_name="date")
-    shipper = CharFilter(field_name='shipper', lookup_expr="iexact" ) # it defaults to exact lookup
+    shipper = CharFilter(field_name='shipper', lookup_expr="icontains" ) # it defaults to exact lookup
 
     class Meta: 
         model = Bill
